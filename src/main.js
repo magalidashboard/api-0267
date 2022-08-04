@@ -6,14 +6,26 @@ const passport = require('passport');
 const session = require('express-session');
 
 require('dotenv').config();
+
 require('./utils/auth')(passport);
+
 
 const THIRTY_MINUTS = 30 * 60 * 1000;
 
 //IMPORT: ROUTE
+
+
 const routeUsers = require('./route/routeUser');
 const routeLogin = require('./route/routeLogin');
-const routeImageS3 = require('./route/routeImageS3');
+
+
+const routeLoginAdmin = require('./route/routeLoginAdmin');
+const routeUsersAdmin = require('./route/routeUserAdmin');
+
+const routeLead = require('./route/routLead');
+const routeArea = require('./route/routArea');
+const routeApprovedLead = require('./route/routLeadApproved');
+
 
 
 var globalDir = __dirname;
@@ -47,8 +59,12 @@ app.use(express.json());
 
 app.use(
     routeUsers,
+    routeUsersAdmin,
     routeLogin,
-    routeImageS3
+    routeLoginAdmin,
+    routeLead,
+    routeArea,
+    routeApprovedLead
 );
 
 app.use('*', (req, res) => {

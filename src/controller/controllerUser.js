@@ -3,20 +3,20 @@ const bcrypt = require('bcryptjs');
 
 exports.createUser = async ( req, res, next ) => {
 
-    let { email, nickname, password } = req.body;
+    let { email, username, password } = req.body;
 
     let hasspass = bcrypt.hashSync(password)
 
-    if(![email, nickname, password].includes(undefined)){
+    if(![email, username, password].includes(undefined)){
         await serviceContent.createUser(
             email,
-            nickname,
+            username,
             hasspass
         );
 
         res.status(200).json({
             email,
-            nickname,
+            username,
             password,
             hasspass
         });
@@ -64,21 +64,21 @@ exports.getThisUser = async ( req, res, next ) => {
 }
 
 exports.updateThisUser = async ( req, res, next ) => {
-    let { email, nickname, password } = req.body;
+    let { email, username, password } = req.body;
     let { id } = req.params;
 
-    if(email != undefined || nickname != undefined || password != undefined) {
+    if(email != undefined || username != undefined || password != undefined) {
         
         await serviceContent.updateThisUser(
             id, 
             email,
-            nickname,
+            username,
             password
         );
 
         res.status(200).json({
             email,
-            nickname,
+            username,
             password
         });
 
