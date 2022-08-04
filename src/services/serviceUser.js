@@ -1,16 +1,12 @@
+const { password } = require('pg/lib/defaults');
 const database = require('../config/database');
 const modelUser = require('../database/models/modelUser');
 
-// id
-// email
-// nickname
-// password
-
-exports.createUser = async (email, nickname, password) => {
+exports.createUser = async (email, username, password) => {
     try {
         const createUser = await modelUser.create({
             email: email,
-            nickname: nickname,
+            nickname: username,
             password: password
         });
     }
@@ -55,7 +51,7 @@ exports.getThisUser = async (id) => {
     } 
 }
 
-exports.updateThisUser = async (id, email = undefined, nickname = undefined, password = undefined) => {
+exports.updateThisUser = async (id, email = undefined, username = undefined, password = undefined) => {
     try{
         const thisUser = await modelUser.findByPk(id)
         .then(async User => {
@@ -64,7 +60,7 @@ exports.updateThisUser = async (id, email = undefined, nickname = undefined, pas
             }
 
             email != undefined ? User.update({ email: email }) : '';
-            nickname != undefined ? User.update({ nickname: nickname }) : '';
+            username != undefined ? User.update({ username: nickname }) : '';
             password != undefined ? User.update({ password: password }) : '';
 
             const saveUser = await User.save();
@@ -89,7 +85,6 @@ exports.destroyThisUser = async (id) => {
                 }
 
                 destroyUser.destroy();
-
                 return 'User deleted';
             });
         

@@ -8,8 +8,8 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const JWTStrategy = passportJWT.Strategy;
 
 const database = require('../config/database');
-const UserAdmin = require('../database/models/modelAdminUser');
 const User = require('../database/models/modelUser');
+const UserAdmin = require('../database/models/modelAdminUser');
 
 module.exports = function(passport){
 
@@ -17,7 +17,7 @@ module.exports = function(passport){
         try{
             const findUser = await User.findOne({ where: { nickname: username } }).then( async thisUser => {
                     if(!thisUser){
-                        return 'Nothing found';
+                        return false;
                     }
 
                     return thisUser;
@@ -25,18 +25,20 @@ module.exports = function(passport){
 
             const findAdmin = await UserAdmin.findOne({ where: { nickname: username } }).then( async thisUser => { 
                 if(!thisUser){
-                    return 'Nothing found';
+                    return false;
                 }
 
                 return thisUser;
             });
 
-            if(typeof findAdmin == 'object'){
+            console.log(typeof findAdmin, `Admin: ${findAdmin}`, typeof findUser, `User: ${findUser}`)
+
+            if(typeof findAdmin === 'object' && !findUser){
                 return findAdmin;
             } 
 
-            if(typeof findUser == 'object'){
-                return findUser
+            if(typeof findUser === 'object' && !findAdmin){
+                return findUser;
             }
 
         }
@@ -67,7 +69,7 @@ module.exports = function(passport){
         done(null, user.id);
     });
 
-    passport.deserializeUser(async (id, done) => {
+    passport.deserializeUser( async (id, done) => {
         try{
             const user = await findUserById(id);
             done(null, user);

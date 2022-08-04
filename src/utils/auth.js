@@ -9,21 +9,37 @@ const JWTStrategy = passportJWT.Strategy;
 
 const database = require('../config/database');
 const User = require('../database/models/modelUser');
+const UserAdmin = require('../database/models/modelAdminUser');
 
 module.exports = function(passport){
 
     async function findUser(username){
         try{
-            const findUser = await User.findOne({ where: { nickname: username } })
-                .then( async thisUser => {
+            const findUser = await User.findOne({ where: { nickname: username } }).then( async thisUser => {
                     if(!thisUser){
-                        return 'Nothing found';
+                        return false;
                     }
 
                     return thisUser;
-                });
+            });
 
+            const findAdmin = await UserAdmin.findOne({ where: { nickname: username } }).then( async thisUser => { 
+                if(!thisUser){
+                    return false;
+                }
+
+                return thisUser;
+            });
+
+            console.log(typeof findAdmin, `Admin: ${findAdmin}`, typeof findUser, `User: ${findUser}`)
+
+            if(typeof findAdmin === 'object' && !findUser){
+                return findAdmin;
+            } 
+
+            if(typeof findUser === 'object' && !findAdmin){
                 return findUser;
+            }
 
         }
         catch(err){

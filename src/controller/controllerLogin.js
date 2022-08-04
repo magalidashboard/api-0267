@@ -8,8 +8,8 @@ exports.login = async (req, res, next) => {
     passport.authenticate('local', { session: false }, ( err, user, info) => {
         if(err || !user){
             return res.status(400).json({
-                message: info ? info.message : 'Login failed',
-                user: user
+                message : info ? info.message : 'Login failed',
+                user    : user
             });
         }
 
