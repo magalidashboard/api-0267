@@ -1,3 +1,4 @@
+const { DATE } = require('sequelize');
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
 
@@ -12,24 +13,24 @@ const Lead = sequelize.define('Lead', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    birthDate: {
-        type: DataTypes.STRING,
-        allowNull: false,
+    cpf: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
-    age: {
+    cnpj: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    cep: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    genre: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    completeAddress: {
+    address: {
         type: DataTypes.STRING(1000),
         allowNull: false,
     },
-    profession: {
-        type: DataTypes.STRING,
+    complement_address: {
+        type: DataTypes.STRING(1000),
         allowNull: false,
     },
     cellphone: {
@@ -41,38 +42,19 @@ const Lead = sequelize.define('Lead', {
         allowNull: false,
         unique: true
     },
-    maritalStatus: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    childrens: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     documents:  {
         type: DataTypes.STRING(10000),
         allowNull: false,
     },
-    areaChooseID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    hasBusiness: {
+    galery_store: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    partner: {
+    store_address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
-    terms: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    regDoc: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }
+
 });
 
 const init = (async () => {

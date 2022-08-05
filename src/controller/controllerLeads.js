@@ -4,7 +4,7 @@ exports.Gets = async (req, res, next) => {
 
     const gets = await serviceContent.Gets();
 
-    if(gets.length > 0){
+    if (gets.length > 0) {
         res.status(200).json({
             gets
         })
@@ -20,7 +20,7 @@ exports.Gets = async (req, res, next) => {
 exports.GetFile = async (req, res, next) => {
     const gets = await serviceContent.GetFile();
 
-    if(gets.length > 0){
+    if (gets.length > 0) {
         res.status(200).json({
             gets
         })
@@ -34,104 +34,74 @@ exports.GetFile = async (req, res, next) => {
 }
 
 exports.Create = async (req, res, next) => {
-    let { 
-        name, 
-        birthDate,
-        age,
-        genre,
-        completeAddress,
-        profession,
+    let {
+        name,
+        cep,
+        cnpj,
+        address,
+        complement_address,
         cellphone,
         email,
-        maritalStatus,
-        childrens,
         documents,
-        areaChooseID,
-        hasBusiness,
-        partner,
-        terms,
-        regDoc
+        galery_store,
+        store_address,
     } = req.body;
 
-    if(![        
-        name, 
-        birthDate,
-        age,
-        genre,
-        completeAddress,
-        profession,
+    if (![
+        name,
+        cep,
+        cnpj,
+        address,
+        complement_address,
         cellphone,
         email,
-        maritalStatus,
-        childrens,
         documents,
-        areaChooseID,
-        hasBusiness,
-        partner,
-        terms,
-        regDoc
-    ].includes(undefined)){
+        galery_store,
+        store_address,
+    ].includes(undefined)) {
 
         await serviceContent.Create(
-            name, 
-            birthDate,
-            age,
-            genre,
-            completeAddress,
-            profession,
+            name,
+            cep,
+            cnpj,
+            address,
+            complement_address,
             cellphone,
             email,
-            maritalStatus,
-            childrens,
             documents,
-            areaChooseID,
-            hasBusiness,
-            partner,
-            terms,
-            regDoc
+            galery_store,
+            store_address,
         )
 
         res.status(200).json({
-            name, 
-            birthDate,
-            age,
-            genre,
-            completeAddress,
-            profession,
+            name,
+            cep,
+            cnpj,
+            address,
+            complement_address,
             cellphone,
             email,
-            maritalStatus,
-            childrens,
             documents,
-            areaChooseID,
-            hasBusiness,
-            partner,
-            terms,
-            regDoc
+            galery_store,
+            store_address,
         })
 
         return;
     }
 
-    if([
-        name, 
-        birthDate,
-        age,
-        genre,
-        completeAddress,
-        profession,
+    if ([
+        name,
+        cep,
+        cnpj,
+        address,
+        complement_address,
         cellphone,
         email,
-        maritalStatus,
-        childrens,
         documents,
-        areaChooseID,
-        hasBusiness,
-        partner,
-        terms,
-        regDoc
-    ].includes('')){
-        if(Object.keys(req.body).length == 0){
+        galery_store,
+        store_address,
+    ].includes('')) {
+        if (Object.keys(req.body).length == 0) {
             res.status(400).json({
                 error: 'empty data'
             })
@@ -141,87 +111,62 @@ exports.Create = async (req, res, next) => {
             })
         }
     }
- 
+
 
 
 }
 
 exports.Updates = async (req, res, next) => {
-    let { 
-        name, 
-        birthDate,
-        age,
-        genre,
-        completeAddress,
-        profession,
+    let {
+        name,
+        cep,
+        cnpj,
+        address,
+        complement_address,
         cellphone,
         email,
-        maritalStatus,
-        childrens,
         documents,
-        areaChooseID,
-        hasBusiness,
-        partner,
-        terms,
-        regDoc
-     } = req.body;
+        galery_store,
+        store_address,
+    } = req.body;
 
-    if(
+    if (
         name != undefined ||
-        birthDate != undefined ||
-        age != undefined ||
-        genre != undefined ||
-        completeAddress != undefined ||
-        profession != undefined ||
+        cep != undefined ||
+        cnpj != undefined ||
+        address != undefined ||
+        complement_address != undefined ||
         cellphone != undefined ||
         email != undefined ||
-        maritalStatus != undefined ||
-        childrens != undefined ||
         documents != undefined ||
-        areaChooseID != undefined ||
-        hasBusiness != undefined ||
-        partner != undefined ||
-        terms != undefined ||
-        regDoc != undefined
-        ){
+        galery_store != undefined ||
+        store_address != undefined
+    ) {
 
         await serviceContent.Updates(
-            req.params.id,
-            name, 
-            birthDate,
-            age,
-            genre,
-            completeAddress,
-            profession,
+            name,
+            cep,
+            cnpj,
+            address,
+            complement_address,
             cellphone,
             email,
-            maritalStatus,
-            childrens,
             documents,
-            areaChooseID,
-            hasBusiness,
-            partner,
-            terms,
-            regDoc
+            galery_store,
+            store_address,
         )
 
         res.status(200).json({
-            name, 
-            birthDate,
-            age,
-            genre,
-            completeAddress,
-            profession,
+            name,
+            cep,
+            cnpj,
+            address,
+            complement_address,
             cellphone,
             email,
-            maritalStatus,
-            childrens,
             documents,
-            areaChooseID,
-            hasBusiness,
-            partner,
-            terms,
-            regDoc
+            galery_store,
+            store_address,
         })
 
         return;
@@ -234,7 +179,7 @@ exports.Updates = async (req, res, next) => {
 
 exports.GetThis = async (req, res, next) => {
 
-    if(req.params.id){
+    if (req.params.id) {
 
         const gets = await serviceContent.GetThis(
             req.params.id,
@@ -254,7 +199,7 @@ exports.GetThis = async (req, res, next) => {
 
 exports.GetThisByPassUser = async (req, res, next) => {
 
-    if(req.params.username){
+    if (req.params.username) {
 
         const gets = await serviceContent.GetThisByPassUser(
             req.params.username
@@ -274,7 +219,7 @@ exports.GetThisByPassUser = async (req, res, next) => {
 
 exports.Destroys = async (req, res, next) => {
 
-    if(req.params.id){
+    if (req.params.id) {
 
         const _destroy = await serviceContent.Destroys(
             req.params.id,
