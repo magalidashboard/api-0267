@@ -13,25 +13,17 @@ const Lead = sequelize.define('Lead', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    rg:{
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     cpf: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
     },
     cnpj: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
-    },
-    cep: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    address: {
-        type: DataTypes.STRING(1000),
-        allowNull: false,
-    },
-    complement_address: {
-        type: DataTypes.STRING(1000),
-        allowNull: false,
     },
     cellphone: {
         type: DataTypes.STRING,
@@ -42,6 +34,14 @@ const Lead = sequelize.define('Lead', {
         allowNull: false,
         unique: true
     },
+    address: {
+        type: DataTypes.STRING(10000),
+        allowNull: false,
+    },
+    store_address: {
+        type: DataTypes.STRING(10000),
+        allowNull: false
+    },
     documents:  {
         type: DataTypes.STRING(10000),
         allowNull: false,
@@ -49,10 +49,6 @@ const Lead = sequelize.define('Lead', {
     galery_store: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    store_address: {
-        type: DataTypes.STRING,
-        allowNull: false
     },
 
 });
