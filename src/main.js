@@ -13,18 +13,9 @@ require('./utils/auth')(passport);
 const THIRTY_MINUTS = 30 * 60 * 1000;
 
 //IMPORT: ROUTE
-
-
 const routeUsers = require('./route/routeUser');
 const routeLogin = require('./route/routeLogin');
-
-
-const routeLoginAdmin = require('./route/routeLoginAdmin');
-const routeUsersAdmin = require('./route/routeUserAdmin');
-
 const routeLead = require('./route/routLead');
-const routeArea = require('./route/routArea');
-const routeApprovedLead = require('./route/routLeadApproved');
 
 
 
@@ -59,12 +50,8 @@ app.use(express.json());
 
 app.use(
     routeUsers,
-    routeUsersAdmin,
     routeLogin,
-    routeLoginAdmin,
     routeLead,
-    routeArea,
-    routeApprovedLead
 );
 
 app.use('*', (req, res) => {
