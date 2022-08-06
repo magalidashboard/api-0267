@@ -133,21 +133,15 @@ exports.GetThisByPassUser = async (username) => {
 exports.Updates = async (
     id,
     name = undefined,
-    birthDate = undefined,
-    age = undefined,
-    genre = undefined,
-    completeAddress = undefined,
-    profession = undefined,
+    cep = undefined,
+    cnpj = undefined,
+    address = undefined,
+    complement_address = undefined,
     cellphone = undefined,
     email = undefined,
-    maritalStatus = undefined,
-    childrens = undefined,
     documents = undefined,
-    areaChooseID = undefined,
-    hasBusiness = undefined,
-    partner = undefined,
-    terms = undefined,
-    regDoc = undefined
+    galery_store = undefined,
+    store_address = undefined,
 ) => {
     try {
 
@@ -159,21 +153,15 @@ exports.Updates = async (
                 }
 
                 name != undefined ? _find.update({ name: name }) : null;
-                birthDate != undefined ? _find.update({ birthDate: birthDate }) : null;
-                age != undefined ? _find.update({ age: age }) : null;
-                genre != undefined ? _find.update({ genre: genre }) : null;
-                completeAddress != undefined ? _find.update({ completeAddress: completeAddress }) : null;
-                profession != undefined ? _find.update({ profession: profession }) : null;
+                cep != undefined ? _find.update({ cep: cep }) : null;
+                cnpj != undefined ? _find.update({ cnpj: cnpj }) : null;
+                address != undefined ? _find.update({ address: address }) : null;
+                complement_address != undefined ? _find.update({ complement_address: complement_address }) : null;
                 cellphone != undefined ? _find.update({ cellphone: cellphone }) : null;
                 email != undefined ? _find.update({ email: email }) : null;
-                maritalStatus != undefined ? _find.update({ maritalStatus: maritalStatus }) : null;
-                childrens != undefined ? _find.update({ childrens: childrens }) : null;
                 documents != undefined ? _find.update({ documents: documents }) : null;
-                areaChooseID != undefined ? _find.update({ areaChooseID: areaChooseID }) : null;
-                hasBusiness != undefined ? _find.update({ hasBusiness: hasBusiness }) : null;
-                partner != undefined ? _find.update({ partner: partner }) : null;
-                terms != undefined ? _find.update({ terms: terms }) : null;
-                regDoc != undefined ? _find.update({ regDoc: regDoc }) : null;
+                galery_store != undefined ? _find.update({ galery_store: galery_store }) : null;
+                store_address != undefined ? _find.update({ store_address: store_address }) : null;
 
                 const save = await _find.save();
                 return save;

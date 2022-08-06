@@ -36,54 +36,54 @@ exports.GetFile = async (req, res, next) => {
 exports.Create = async (req, res, next) => {
     let {
         name,
+        rg,
         cep,
         cnpj,
-        address,
-        complement_address,
         cellphone,
         email,
-        documents,
-        galery_store,
+        address,
         store_address,
+        documents,
+        galery_store
     } = req.body;
 
     if (![
         name,
+        rg,
         cep,
         cnpj,
-        address,
-        complement_address,
         cellphone,
         email,
-        documents,
-        galery_store,
+        address,
         store_address,
+        documents,
+        galery_store
     ].includes(undefined)) {
 
         await serviceContent.Create(
             name,
+            rg,
             cep,
             cnpj,
-            address,
-            complement_address,
             cellphone,
             email,
-            documents,
-            galery_store,
+            address,
             store_address,
+            documents,
+            galery_store
         )
 
         res.status(200).json({
             name,
+            rg,
             cep,
             cnpj,
-            address,
-            complement_address,
             cellphone,
             email,
-            documents,
-            galery_store,
+            address,
             store_address,
+            documents,
+            galery_store
         })
 
         return;
@@ -91,15 +91,15 @@ exports.Create = async (req, res, next) => {
 
     if ([
         name,
+        rg,
         cep,
         cnpj,
-        address,
-        complement_address,
         cellphone,
         email,
-        documents,
-        galery_store,
+        address,
         store_address,
+        documents,
+        galery_store
     ].includes('')) {
         if (Object.keys(req.body).length == 0) {
             res.status(400).json({
@@ -119,54 +119,54 @@ exports.Create = async (req, res, next) => {
 exports.Updates = async (req, res, next) => {
     let {
         name,
+        rg,
         cep,
         cnpj,
-        address,
-        complement_address,
         cellphone,
         email,
-        documents,
-        galery_store,
+        address,
         store_address,
+        documents,
+        galery_store
     } = req.body;
 
     if (
         name != undefined ||
+        rg != undefined ||
         cep != undefined ||
         cnpj != undefined ||
-        address != undefined ||
-        complement_address != undefined ||
         cellphone != undefined ||
         email != undefined ||
+        address != undefined ||
+        store_address != undefined ||
         documents != undefined ||
-        galery_store != undefined ||
-        store_address != undefined
+        galery_store != undefined
     ) {
 
         await serviceContent.Updates(
             name,
+            rg,
             cep,
             cnpj,
-            address,
-            complement_address,
             cellphone,
             email,
-            documents,
-            galery_store,
+            address,
             store_address,
+            documents,
+            galery_store
         )
 
         res.status(200).json({
             name,
+            rg,
             cep,
             cnpj,
-            address,
-            complement_address,
             cellphone,
             email,
-            documents,
-            galery_store,
+            address,
             store_address,
+            documents,
+            galery_store
         })
 
         return;

@@ -50,7 +50,18 @@ const Lead = sequelize.define('Lead', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-
+    payments_id: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    current_payment: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    whatsapp_status: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 });
 
 const init = (async () => {
