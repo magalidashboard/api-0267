@@ -80,10 +80,6 @@ EXTRACT
     payment_link: ''
 }
 
-MERCADO PAGO
-
-
-
 SETTINGS
 {
     mercado_pago: 
@@ -97,12 +93,8 @@ SETTINGS
         app_key: ''
         public_key: ''
     },
-    tax: ''
-}
-
-WHATSAPP MESSAGE
-{
-    message: ''
+    tax: '',
+    whatsapp_message: ''
 }
 
 FAQ
