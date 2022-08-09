@@ -51,8 +51,8 @@ PROFESSIONAL
 ROLES
 {
     'Admin': 7751,
-    'professional': 6621,
-    'client': 3312
+    'Professional': 6621,
+    'Client': 3312
 }
 
 USER ROLE
@@ -84,17 +84,18 @@ SETTINGS
 {
     mercado_pago: 
     {
-        store: '',
-        public_key: ''
+        store: UNIQUE,
+        public_key: UNIQUE,
+        mp_token: UNIQUE,
     },
     pagseguro:
     {
-        app_id: '',
-        app_key: ''
-        public_key: ''
+        app_id: UNIQUE',
+        app_key: UNIQUE,
+        public_key: UNIQUE
     },
-    tax: '',
-    whatsapp_message: ''
+    tax: UNIQUE,
+    whatsapp_message: UNIQUE
 }
 
 FAQ

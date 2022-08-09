@@ -16,6 +16,8 @@ const THIRTY_MINUTS = 30 * 60 * 1000;
 const routeUsers = require('./route/routeUser');
 const routeLogin = require('./route/routeLogin');
 const routeLead = require('./route/routLead');
+const routeRoles = require('./route/routeRoles');
+const routeSettings = require('./route/routeSettings');
 
 
 
@@ -52,6 +54,8 @@ app.use(
     routeUsers,
     routeLogin,
     routeLead,
+    routeRoles,
+    routeSettings
 );
 
 app.use('*', (req, res) => {

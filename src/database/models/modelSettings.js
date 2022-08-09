@@ -10,19 +10,23 @@ const Settings = sequelize.define('Settings', {
     },
     mercado_pago: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     pagseguro: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     tax: {
         type: DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        unique: true
     },
     whatsapp_message: {
         type: DataTypes.STRING, 
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 });
 
