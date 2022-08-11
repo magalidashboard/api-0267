@@ -18,6 +18,7 @@ const routeLogin = require('./route/routeLogin');
 const routeLead = require('./route/routLead');
 const routeRoles = require('./route/routeRoles');
 const routeSettings = require('./route/routeSettings');
+const routeMercadoPago = require('./route/routMercadoPago');
 
 
 
@@ -55,7 +56,8 @@ app.use(
     routeLogin,
     routeLead,
     routeRoles,
-    routeSettings
+    routeSettings,
+    routeMercadoPago
 );
 
 app.use('*', (req, res) => {

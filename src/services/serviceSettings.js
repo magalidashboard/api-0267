@@ -1,11 +1,23 @@
 const database = require('../config/database');
 const modelCaller = require('../database/models/modelSettings');
 
-exports.create = async (mercado_pago, pagseguro, tax, whatsapp_message) => {
+exports.create = async (            
+    mercado_pago_store, 
+    mercado_pago_key, 
+    mercado_pago_token, 
+    pagseguro_id, 
+    pagseguro_key, 
+    pagseguro_public_key,  
+    tax, 
+    whatsapp_message) => {
     try {
         const create = await modelCaller.create({
-            mercado_pago, 
-            pagseguro, 
+            mercado_pago_store, 
+            mercado_pago_key, 
+            mercado_pago_token, 
+            pagseguro_id, 
+            pagseguro_key, 
+            pagseguro_public_key, 
             tax, 
             whatsapp_message
         });
@@ -53,8 +65,12 @@ exports.gethis = async (id) => {
 
 exports.updatethis = async (
     id, 
-    mercado_pago = undefined, 
-    pagseguro  = undefined, 
+    mercado_pago_store = undefined, 
+    mercado_pago_key = undefined, 
+    mercado_pago_token = undefined, 
+    pagseguro_id  = undefined, 
+    pagseguro_key  = undefined, 
+    pagseguro_public_key  = undefined, 
     tax  = undefined,
     whatsapp_message = undefined) => {
     try{
@@ -64,8 +80,12 @@ exports.updatethis = async (
                 return 'Not found';
             }
 
-            mercado_pago != undefined ? _this.update({ mercado_pago: mercado_pago }) : '';
-            pagseguro != undefined ? _this.update({ pagseguro: pagseguro }) : '';
+            mercado_pago_store != undefined ? _this.update({ mercado_pago_store: mercado_pago_store }) : '';
+            mercado_pago_key != undefined ? _this.update({ mercado_pago_key: mercado_pago_key }) : '';
+            mercado_pago_token != undefined ? _this.update({ mercado_pago_token: mercado_pago_token }) : '';
+            pagseguro_id != undefined ? _this.update({ pagseguro_id: pagseguro_id }) : '';
+            pagseguro_key != undefined ? _this.update({ pagseguro_key: pagseguro_key }) : '';
+            pagseguro_public_key != undefined ? _this.update({ pagseguro_public_key: pagseguro_public_key }) : '';
             tax != undefined ? _this.update({ tax: tax }) : '';
             whatsapp_message != undefined ? _this.update({ whatsapp_message: whatsapp_message }) : '';
 
