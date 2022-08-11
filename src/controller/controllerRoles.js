@@ -5,18 +5,18 @@ exports.create = async ( req, res, next ) => {
 
     let { roleAcess, roleName } = req.body;
 
-    roleAcess = bcrypt.hashSync(roleAcess);
-    roleName = bcrypt.hashSync(roleName);
+    // roleAcess = bcrypt.hashSync(roleAcess);
+    // roleName = bcrypt.hashSync(roleName);
 
     if(![roleAcess, roleName].includes(undefined)){
         await serviceContent.create(
-            roleAcess, 
-            roleName
+            roleName,
+            roleAcess 
         );
 
         res.status(200).json({
-            roleAcess, 
-            roleName
+            roleName,
+            roleAcess
         });
 
     }

@@ -2,19 +2,45 @@ const serviceContent = require('../services/serviceSettings');
 
 exports.create = async ( req, res, next ) => {
 
-    let { mercado_pago, pagseguro, tax, whatsapp_message } = req.body;
+    let {        
+        mercado_pago_store, 
+        mercado_pago_key, 
+        mercado_pago_token, 
+        pagseguro_id, 
+        pagseguro_key, 
+        pagseguro_public_key,  
+        tax, 
+        whatsapp_message
+    } = req.body;
 
-    if(![mercado_pago, pagseguro, tax, whatsapp_message].includes(undefined)){
+    if(![
+        mercado_pago_store, 
+        mercado_pago_key, 
+        mercado_pago_token, 
+        pagseguro_id, 
+        pagseguro_key, 
+        pagseguro_public_key,  
+        tax, 
+        whatsapp_message
+    ].includes(undefined)){
         await serviceContent.create(
-            mercado_pago, 
-            pagseguro, 
+            mercado_pago_store, 
+            mercado_pago_key, 
+            mercado_pago_token, 
+            pagseguro_id, 
+            pagseguro_key, 
+            pagseguro_public_key,  
             tax, 
             whatsapp_message
         );
 
         res.status(200).json({
-            mercado_pago, 
-            pagseguro, 
+            mercado_pago_store, 
+            mercado_pago_key, 
+            mercado_pago_token, 
+            pagseguro_id, 
+            pagseguro_key, 
+            pagseguro_public_key,  
             tax, 
             whatsapp_message
         });
@@ -62,31 +88,34 @@ exports.gethis = async ( req, res, next ) => {
 }
 
 exports.updatethis = async ( req, res, next ) => {
-    let { mercado_pago, pagseguro, tax, whatsapp_message } = req.body;
+    let {    
+        mercado_pago_store, 
+        mercado_pago_key, 
+        mercado_pago_token, 
+        pagseguro_id, 
+        pagseguro_key, 
+        pagseguro_public_key,  
+        tax, 
+        whatsapp_message } = req.body;
     let { id } = req.params;
 
-    if(mercado_pago = undefined, pagseguro = undefined, tax = undefined, whatsapp_message = undefined) {
-        
-        await serviceContent.updatethis(
-            id, 
-            mercado_pago, 
-            pagseguro, 
-            tax, 
-            whatsapp_message
-        );
+    await serviceContent.updatethis(
+        id, 
+        mercado_pago_store, 
+        mercado_pago_key, 
+        mercado_pago_token, 
+        pagseguro_id, 
+        pagseguro_key, 
+        pagseguro_public_key,  
+        tax, 
+        whatsapp_message
+    );
 
-        res.status(200).json({
-            mercado_pago, 
-            pagseguro, 
-            tax, 
-            whatsapp_message
-        });
-
-        return;
-    }
-
-    res.status(400).json({
-        error: 'Incorrect id'
+    res.status(200).json({
+        mercado_pago, 
+        pagseguro, 
+        tax, 
+        whatsapp_message
     });
 
 }

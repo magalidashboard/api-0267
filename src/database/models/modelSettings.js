@@ -8,12 +8,32 @@ const Settings = sequelize.define('Settings', {
         primaryKey: true,
         autoIncrement: true,
     },
-    mercado_pago: {
+    mercado_pago_store: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
-    pagseguro: {
+    mercado_pago_key: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    mercado_pago_token: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    pagseguro_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    pagseguro_key: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    pagseguro_public_key: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true

@@ -82,18 +82,12 @@ EXTRACT
 
 SETTINGS
 {
-    mercado_pago: 
-    {
-        store: UNIQUE,
-        public_key: UNIQUE,
-        mp_token: UNIQUE,
-    },
-    pagseguro:
-    {
-        app_id: UNIQUE',
-        app_key: UNIQUE,
-        public_key: UNIQUE
-    },
+    mercado_pago_store: UNIQUE,
+    mercado_pago_key: UNIQUE,
+    mercado_pago_token: UNIQUE,
+    pagseguro_id: UNIQUE,
+    pagseguro_key: UNIQUE,
+    pagseguro_public_key: UNIQUE,
     tax: UNIQUE,
     whatsapp_message: UNIQUE
 }

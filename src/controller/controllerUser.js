@@ -1,13 +1,13 @@
 const serviceContent = require('../services/serviceUser');
+//const serviceRoles = require('../services/serviceRoles');
 const bcrypt = require('bcryptjs');
 
 exports.createUser = async ( req, res, next ) => {
 
     let { email, username, password, role } = req.body;
+    let hasspass = bcrypt.hashSync(password);
 
-    let hasspass = bcrypt.hashSync(password)
-
-    if(![email, username, password].includes(undefined)){
+    if(![email, username, password, role].includes(undefined)){
         await serviceContent.createUser(
             email,
             username,
@@ -30,6 +30,10 @@ exports.createUser = async ( req, res, next ) => {
 exports.getUsers = async ( req, res, next ) => {
     
     const getUsers = await serviceContent.getUsers();
+    //const getRoles = await serviceRoles.gets();
+
+    //CHECK IF ROLE ARE CORRECT
+    //console.log(bcrypt.compareSync(getUsers[0].dataValues.role, getRoles[0].dataValues.roleAcess))
 
     if(getUsers.length > 0){
         res.status(200).json({
