@@ -23,6 +23,26 @@ const Settings = sequelize.define('Settings', {
         allowNull: false,
         unique: true
     },
+    mercado_pago_url_success: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    mercado_pago_url_pending: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    mercado_pago_url_failure: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    mercado_pago_notification_url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
     pagseguro_id: {
         type: DataTypes.STRING,
         allowNull: false,

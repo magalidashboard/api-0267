@@ -9,7 +9,7 @@ const Extract = sequelize.define('Extract', {
         autoIncrement: true,
     },
     extract_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     email: {
@@ -17,6 +17,14 @@ const Extract = sequelize.define('Extract', {
         allowNull: false
     },
     payment_link: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    payment_id: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
         type: DataTypes.STRING,
         allowNull: false
     }

@@ -65,7 +65,7 @@ exports.updatethis = async ( req, res, next ) => {
     let { roleAcess, roleName } = req.body;
     let { id } = req.params;
 
-    if(roleAcess = undefined, roleName = undefined) {
+    if(roleAcess != undefined || roleName != undefined) {
         
         await serviceContent.updatethis(
             id, 

@@ -1,5 +1,5 @@
 const database = require('../config/database');
-const modelCaller = require('../database/models/modelLead');
+const modelCaller = require('../database/models/modelProfessional');
 const fs = require('fs');
 const global = require('../main');
 const { Op } = require('sequelize');
@@ -8,32 +8,24 @@ const { Op } = require('sequelize');
 exports.Create = async (
     name,
     rg,
-    cep,
-    cnpj,
     cpf,
+    cnpj,
     cellphone,
     email,
     address,
-    cep_store,
-    store_address,
-    documents,
-    galery_store
+    documents
 ) => {
     try {
 
         const created = await modelCaller.create({
             name,
             rg,
-            cep,
-            cnpj,
             cpf,
+            cnpj,
             cellphone,
             email,
             address,
-            cep_store,
-            store_address,
-            documents,
-            galery_store
+            documents
         });
 
         this.GetFile();
@@ -76,7 +68,7 @@ exports.GetFile = async () => {
         });
 
         let treatObject = JSON.stringify(gets);
-        let files = global.globalDir + '/files/_database_backup_leads.json';
+        let files = global.globalDir + '/files/_database_backup_professional.json';
         fs.writeFile(files, treatObject, 'utf8', (err) => {
             if (err) {
                 console.log(err)
@@ -109,24 +101,20 @@ exports.GetThis = async (id) => {
     }
 }
 
-exports.GetThisByPassUser = async (username) => {
+exports.GetThis = async (id) => {
     try {
 
-        const find = await modelCaller.findOne({
-            where: {
-                [Op.and]: [
-                    { name: username }
-                ]
-            }
-        }).then(_find => {
-            if (!_find) {
-                return 'nothing found';
-            }
+        const gethis = await modelCaller.findByPk(id)
+            .then(_this => {
+                if(!_this) {
+                    return 'Not found';
+                }
 
-            return _find;
-        });
+                return _this;
+            });
 
-        return find;
+        return gethis;
+
 
     } catch (error) {
         console.log(error);
@@ -139,15 +127,12 @@ exports.Updates = async (
     name = undefined,
     rg = undefined,
     cep = undefined,
-    cnpj = undefined,
     cpf = undefined,
+    cnpj = undefined,
     cellphone = undefined,
     email = undefined,
     address = undefined,
-    cep_store = undefined,
-    store_address = undefined,
-    documents = undefined,
-    galery_store = undefined
+    documents = undefined
 ) => {
     try {
 
@@ -161,16 +146,13 @@ exports.Updates = async (
                 name != undefined ? _find.update({ name: name }) : null;
                 rg != undefined ? _find.update({ rg: rg }) : null;
                 cep != undefined ? _find.update({ cep: cep }) : null;
-                cnpj != undefined ? _find.update({ cnpj: cnpj }) : null;
                 cpf != undefined ? _find.update({ cpf: cpf }) : null;
+                cnpj != undefined ? _find.update({ cnpj: cnpj }) : null;
                 address != undefined ? _find.update({ address: address }) : null;
                 complement_address != undefined ? _find.update({ complement_address: complement_address }) : null;
                 cellphone != undefined ? _find.update({ cellphone: cellphone }) : null;
                 email != undefined ? _find.update({ email: email }) : null;
                 documents != undefined ? _find.update({ documents: documents }) : null;
-                galery_store != undefined ? _find.update({ galery_store: galery_store }) : null;
-                cep_store != undefined ? _find.update({ cep_store: cep_store }) : null;
-                store_address != undefined ? _find.update({ store_address: store_address }) : null;
 
                 const save = await _find.save();
                 return save;

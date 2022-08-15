@@ -13,7 +13,7 @@ const Payment = sequelize.define('Payment', {
         allowNull: false
     },
     extract_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     payment_detail: {
@@ -21,7 +21,31 @@ const Payment = sequelize.define('Payment', {
         allowNull: false
     },
     tax: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
+        allowNull: false
+    }, 
+    price: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    cpf: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    professional_email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    link_payment: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    payment_id: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.STRING,
         allowNull: false
     }
 });

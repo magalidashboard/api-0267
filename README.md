@@ -72,6 +72,9 @@ PAYMENTS
         //PAYMENT BODY
     },
     tax: '',
+    price: '',
+    cpf: '',
+    professionalEmail: ''
 }
 
 EXTRACT 

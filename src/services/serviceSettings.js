@@ -5,6 +5,10 @@ exports.create = async (
     mercado_pago_store, 
     mercado_pago_key, 
     mercado_pago_token, 
+    mercado_pago_url_success,
+    mercado_pago_url_pending,
+    mercado_pago_url_failure,
+    mercado_pago_notification_url,
     pagseguro_id, 
     pagseguro_key, 
     pagseguro_public_key,  
@@ -15,6 +19,10 @@ exports.create = async (
             mercado_pago_store, 
             mercado_pago_key, 
             mercado_pago_token, 
+            mercado_pago_url_success,
+            mercado_pago_url_pending,
+            mercado_pago_url_failure,
+            mercado_pago_notification_url,
             pagseguro_id, 
             pagseguro_key, 
             pagseguro_public_key, 
@@ -68,6 +76,10 @@ exports.updatethis = async (
     mercado_pago_store = undefined, 
     mercado_pago_key = undefined, 
     mercado_pago_token = undefined, 
+    mercado_pago_url_success = undefined, 
+    mercado_pago_url_pending = undefined, 
+    mercado_pago_url_failure = undefined, 
+    mercado_pago_notification_url = undefined,
     pagseguro_id  = undefined, 
     pagseguro_key  = undefined, 
     pagseguro_public_key  = undefined, 
@@ -83,6 +95,10 @@ exports.updatethis = async (
             mercado_pago_store != undefined ? _this.update({ mercado_pago_store: mercado_pago_store }) : '';
             mercado_pago_key != undefined ? _this.update({ mercado_pago_key: mercado_pago_key }) : '';
             mercado_pago_token != undefined ? _this.update({ mercado_pago_token: mercado_pago_token }) : '';
+            mercado_pago_url_success != undefined ? _this.update({ mercado_pago_url_success: mercado_pago_url_success }) : '';
+            mercado_pago_url_pending != undefined ? _this.update({ mercado_pago_url_pending: mercado_pago_url_pending }) : '';
+            mercado_pago_url_failure != undefined ? _this.update({ mercado_pago_url_failure: mercado_pago_url_failure }) : '';
+            mercado_pago_notification_url != undefined ? _this.update({ mercado_pago_notification_url: mercado_pago_notification_url }) : '';
             pagseguro_id != undefined ? _this.update({ pagseguro_id: pagseguro_id }) : '';
             pagseguro_key != undefined ? _this.update({ pagseguro_key: pagseguro_key }) : '';
             pagseguro_public_key != undefined ? _this.update({ pagseguro_public_key: pagseguro_public_key }) : '';

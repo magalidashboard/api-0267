@@ -2,23 +2,21 @@ const serviceMP = require('../services/serviceMercadoPago');
 const serviceContent = require('../services/servicePaymentDetail');
 
 exports.Create = async (req, res, next) => {
-    let { payment_id, extract_id, payment_detail, tax, price, cpf, professionalEmail } = req.body;
+    let { payment_id, extract_id, payment_detail, price, cpf, professionalEmail } = req.body;
 
-    // if(![payment_id, extract_id, payment_detail, tax, price, cpf, professionalEmail].includes(undefined)){
+    if(![payment_id, extract_id, payment_detail, price, cpf, professionalEmail].includes(undefined)){
+        let Payment = await serviceContent.Create(
+            payment_id, extract_id, payment_detail, price, cpf, professionalEmail
+        )
+    
+        res.status(200).json({
+            Payment
+        })
 
-    // }
+        return;
+    }
 
-    let created = await serviceContent.Create(
-        payment_id, extract_id, payment_detail, tax, price, cpf, professionalEmail
-    )
-
-    res.status(200).json({
-        created
-    })
-
-    return;
-
-    if([payment_id, extract_id, payment_detail, tax, price, cpf, professionalEmail].includes('')){
+    if([payment_id, extract_id, payment_detail, price, cpf, professionalEmail].includes('')){
         if(Object.keys(req.body).length == 0){
             res.status(400).json({
                 error: 'empty data'
@@ -50,6 +48,40 @@ exports.Gets = async (req, res, next) => {
     res.status(200).json({
         gets
     })
+}
+
+exports.PreferenceSearch = async (req, res, next) => {
+    const payments = await serviceContent.PreferenceSearch(req.params.id);
+
+    if(payments){
+        res.status(200).json({
+            payments
+        })
+
+        return;
+    }
+
+    res.status(400).json({
+        error: payments
+    })
+
+}
+
+exports.PaymentSearch = async (req, res, next) => {
+    const payments = await serviceContent.PaymentSearch(req.params.id);
+
+    if(payments){
+        res.status(200).json({
+            payments
+        })
+
+        return;
+    }
+
+    res.status(400).json({
+        error: 'Erro ao procurar pagamentos'
+    })
+
 }
 
 exports.GetThis = async (req, res, next) => {

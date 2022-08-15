@@ -2,14 +2,16 @@ const database = require('../config/database');
 const { Op } = require('sequelize');
 const modelCaller = require('../database/models/modelPayment');
 const modelSettings = require('../database/models/modelSettings');
+const modelExtract = require('../database/models/modelExtract');
+const modelLead = require('../database/models/modelLead');
 const fs = require('fs');
 const global = require('../main');
+const serviceMP = require('../services/serviceMercadoPago');
 
 exports.Create = async (
     payment_id,
     extract_id,
     payment_detail,
-    tax,
     price,
     cpf,
     professionalEmail
@@ -17,25 +19,66 @@ exports.Create = async (
     try {
 
         const getTax = await modelSettings.findAll();
+        const getUser = await modelLead.findAll({
+            where: {
+                [Op.or]: [{ cpf: cpf }, {cnpj: cpf}]
+            }
+        });
+
 
         let tax_by_percentage = getTax[0].dataValues.tax/100;
-    
-        return tax_by_percentage;
+        let price_by_tax = Number(tax_by_percentage) * Number(price);
+        price = Number(price) + Number(price_by_tax);
 
-        // const createTitle = await modelCaller.create({
-        //     payment_id,
-        //     extract_id,
-        //     payment_detail,
-        //     tax,
-        //     price,
-        //     cpf,
-        //     professionalEmail
-        // });
+        const mpresponse = await serviceMP.createPaymentPreference(`#${payment_id}: ${payment_detail}`, price);
+
+        let prefix =  `extract_${extract_id}`;
+
+        const createTitle = await modelCaller.create({
+            payment_id,
+            extract_id: prefix,
+            payment_detail,
+            tax: tax_by_percentage,
+            price,
+            cpf,
+            professional_email: professionalEmail,
+            link_payment: mpresponse.init_point,
+            payment_id: mpresponse.id_point,
+            status: 'PENDENTE'
+        });
+
+        const createExtract = await modelExtract.create({
+            extract_id: prefix,
+            email: getUser[0].dataValues.email,
+            payment_link: mpresponse.init_point,
+            payment_id: mpresponse.id_point,
+            status: 'PENDENTE'
+        })
 
         this.GetFile();
 
+        return { createTitle, createExtract };
+
     } catch (error) {
         console.log(error);
+    }
+}
+
+exports.PreferenceSearch = async (id) => {
+    try {
+        const mpayments = await serviceMP.getThisPreference(id);
+        return mpayments;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.PaymentSearch = async (id) => {
+    try {
+        const mpayments = await serviceMP.getThisPayment(id);
+        return mpayments;
+    } catch (error) {
+        console.log(error)
     }
 }
 

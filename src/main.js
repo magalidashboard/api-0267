@@ -19,6 +19,8 @@ const routeLead = require('./route/routLead');
 const routeRoles = require('./route/routeRoles');
 const routeSettings = require('./route/routeSettings');
 const routeMercadoPago = require('./route/routMercadoPago');
+const routeExtracts = require('./route/routeExtract');
+const routeProfessional = require('./route/routProfessional');
 
 
 
@@ -57,7 +59,9 @@ app.use(
     routeLead,
     routeRoles,
     routeSettings,
-    routeMercadoPago
+    routeMercadoPago,
+    routeExtracts,
+    routeProfessional
 );
 
 app.use('*', (req, res) => {

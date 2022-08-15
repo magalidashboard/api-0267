@@ -20,7 +20,7 @@ const Profession = sequelize.define('Profession', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    cnpf: {
+    cnpj: {
         type: DataTypes.STRING,
         allowNull: false
     },

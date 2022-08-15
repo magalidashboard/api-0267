@@ -1,4 +1,4 @@
-const serviceContent = require('../services/serviceLead');
+const serviceContent = require('../services/serviceProfessional');
 
 exports.Gets = async (req, res, next) => {
 
@@ -38,58 +38,48 @@ exports.Create = async (req, res, next) => {
         name,
         rg,
         cep,
-        cnpj,
         cpf,
+        cnpj,
         cellphone,
         email,
         address,
-        cep_store,
-        store_address,
-        documents,
-        galery_store
+        documents
     } = req.body;
 
     if (![
         name,
         rg,
         cep,
+        cpf,
+        cnpj,
         cellphone,
         email,
         address,
-        cep_store,
-        store_address,
-        documents,
-        galery_store
+        documents
     ].includes(undefined)) {
 
         await serviceContent.Create(
             name,
             rg,
             cep,
-            cnpj,
             cpf,
+            cnpj,
             cellphone,
             email,
             address,
-            cep_store,
-            store_address,
-            documents,
-            galery_store
+            documents
         )
 
         res.status(200).json({
             name,
             rg,
             cep,
-            cnpj,
             cpf,
+            cnpj,
             cellphone,
             email,
             address,
-            cep_store,
-            store_address,
-            documents,
-            galery_store
+            documents
         })
 
         return;
@@ -99,13 +89,12 @@ exports.Create = async (req, res, next) => {
         name,
         rg,
         cep,
+        cpf,
+        cnpj,
         cellphone,
         email,
         address,
-        cep_store,
-        store_address,
-        documents,
-        galery_store
+        documents
     ].includes('')) {
         if (Object.keys(req.body).length == 0) {
             res.status(400).json({
@@ -123,15 +112,12 @@ exports.Create = async (req, res, next) => {
         name,
         rg,
         cep,
-        cnpj,
         cpf,
+        cnpj,
         cellphone,
         email,
         address,
-        cep_store,
-        store_address,
-        documents,
-        galery_store
+        documents
     })
 
 
@@ -147,10 +133,7 @@ exports.Updates = async (req, res, next) => {
         cellphone,
         email,
         address,
-        cep_store,
-        store_address,
-        documents,
-        galery_store
+        documents
     } = req.body;
 
     if (
@@ -162,10 +145,7 @@ exports.Updates = async (req, res, next) => {
         cellphone != undefined ||
         email != undefined ||
         address != undefined ||
-        cep_store != undefined ||
-        store_address != undefined ||
-        documents != undefined ||
-        galery_store != undefined
+        documents != undefined 
     ) {
 
         await serviceContent.Updates(
@@ -177,10 +157,7 @@ exports.Updates = async (req, res, next) => {
             cellphone,
             email,
             address,
-            cep_store,
-            store_address,
-            documents,
-            galery_store
+            documents
         )
 
         res.status(200).json({
@@ -192,10 +169,7 @@ exports.Updates = async (req, res, next) => {
             cellphone,
             email,
             address,
-            cep_store,
-            store_address,
-            documents,
-            galery_store
+            documents
         })
 
         return;
@@ -223,26 +197,6 @@ exports.GetThis = async (req, res, next) => {
 
     res.status(400).json({
         error: `wrong item id or doens't exists`
-    })
-}
-
-exports.GetThisByPassUser = async (req, res, next) => {
-
-    if (req.params.username) {
-
-        const gets = await serviceContent.GetThisByPassUser(
-            req.params.username
-        )
-
-        res.status(200).json({
-            gets
-        })
-
-        return;
-    }
-
-    res.status(400).json({
-        error: `wrong item parameters or doens't exists`
     })
 }
 
