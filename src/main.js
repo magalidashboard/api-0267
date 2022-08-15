@@ -21,6 +21,7 @@ const routeSettings = require('./route/routeSettings');
 const routeMercadoPago = require('./route/routMercadoPago');
 const routeExtracts = require('./route/routeExtract');
 const routeProfessional = require('./route/routProfessional');
+const routeNotification = require('./route/routNotifications');
 
 
 
@@ -61,7 +62,8 @@ app.use(
     routeSettings,
     routeMercadoPago,
     routeExtracts,
-    routeProfessional
+    routeProfessional,
+    routeNotification
 );
 
 app.use('*', (req, res) => {
