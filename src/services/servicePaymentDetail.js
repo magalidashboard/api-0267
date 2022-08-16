@@ -72,6 +72,39 @@ exports.Create = async (
     }
 }
 
+exports.updatethis = async (
+    paymentid,
+    status = undefined, 
+    type_payment = undefined, 
+) => {
+    try{
+        const updatethis = await modelCaller.findOne({
+            where: {
+                [Op.or]: [{ payment_id: paymentid }]
+            }
+        })
+        .then(async _this => {
+            if(!_this){
+                return 'Not found';
+            }
+
+            status != undefined ? _this.update({ status: status }) : '';
+            type_payment != undefined ? _this.update({ type_payment: type_payment }) : '';
+
+            const _save = await _this.save();
+            return _save;
+
+        });
+    
+        return updatethis;
+    }
+    catch(err){
+        console.log(err)
+    }
+
+}
+
+
 exports.PreferenceSearch = async (id) => {
     try {
         const mpayments = await serviceMP.getThisPreference(id);

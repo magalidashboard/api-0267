@@ -8,10 +8,6 @@ const Payment = sequelize.define('Payment', {
         primaryKey: true,
         autoIncrement: true,
     },
-    payment_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
     extract_id: {
         type: DataTypes.STRING,
         allowNull: false

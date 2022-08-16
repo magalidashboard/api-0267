@@ -30,6 +30,36 @@ exports.Create = async (req, res, next) => {
 
 }
 
+exports.updatethis = async ( req, res, next ) => {
+
+    let { status, type_payment } = req.body;
+    let { paymentid } = req.params;
+
+    if(
+        status != undefined ||
+        type_payment != undefined 
+        ) {
+
+            await serviceContent.updatethis(
+                paymentid,
+                status, 
+                type_payment
+            );
+        
+            res.status(200).json({
+                status, 
+                type_payment
+            });
+
+        return;
+    }
+
+    res.status(400).json({
+        error: 'Incorrect id'
+    });
+
+}
+
 exports.getPublicKey = async (req, res, next) => {
 
     const getPublic = await serviceMP.getPublic();

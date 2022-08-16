@@ -16,7 +16,9 @@ router.delete(`/${pathRoute}/delete/:id`, controlContent.Destroys);
 router.get(`/${pathRoute}/preference/:id`, controlContent.PreferenceSearch);
 
 //GET PAYMENT
-router.get(`/search/payment/:payment_id`, controlContent.GetPaymentId);
+router.get(`/search/payment/:id`, controlContent.GetPaymentId);
+//UPDATE PAYMENT 
+router.post(`/payment/update/:paymentid`, controlContent.updatethis)
 
 //GET EXTRACT
 router.get('/extracts/:extract', controlContent.GetExtracts);
