@@ -16,6 +16,16 @@ router.delete(`/${pathRoute}/delete/:id`, controlContent.Destroys);
 router.get(`/${pathRoute}/preference/:id`, controlContent.PreferenceSearch);
 
 //GET PAYMENT
-router.get(`/${pathRoute}/payment/:id`, controlContent.PaymentSearch);
+router.get(`/search/payment/:payment_id`, controlContent.GetPaymentId);
+
+//GET EXTRACT
+router.get('/extracts/:extract', controlContent.GetExtracts);
+
+router.post('/payment', controlContent.makePaymentController);
+router.post('/payment/pix', controlContent.makePixPaymentController);
+router.post('/update/pix/status', controlContent.checkPixPayments);
+router.get('/history/payments', controlContent.getPayments);
+router.delete('/payment/pix/delete/:id', controlContent.destroyPixPayments);
+router.delete('/payment/delete/:id', controlContent.destroyPayments);
 
 module.exports = router;

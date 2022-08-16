@@ -16,6 +16,10 @@ const Extract = sequelize.define('Extract', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     payment_link: {
         type: DataTypes.STRING,
         allowNull: false

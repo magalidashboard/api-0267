@@ -14,6 +14,9 @@ exports.Create = async (
     payment_detail,
     price,
     cpf,
+    name,
+    type_payment,
+    expires_date,
     professionalEmail
     ) => {
     try {
@@ -41,6 +44,10 @@ exports.Create = async (
             tax: tax_by_percentage,
             price,
             cpf,
+            name,
+            type_payment,
+            expires_date,
+            email: getUser[0].dataValues.email,
             professional_email: professionalEmail,
             link_payment: mpresponse.init_point,
             payment_id: mpresponse.id_point,
@@ -50,6 +57,7 @@ exports.Create = async (
         const createExtract = await modelExtract.create({
             extract_id: prefix,
             email: getUser[0].dataValues.email,
+            name,
             payment_link: mpresponse.init_point,
             payment_id: mpresponse.id_point,
             status: 'PENDENTE'
@@ -79,6 +87,34 @@ exports.PaymentSearch = async (id) => {
         return mpayments;
     } catch (error) {
         console.log(error)
+    }
+}
+
+exports.ExtractSearch = async (extract) => {
+    try {
+        const getExtract = await modelExtract.findAll({
+            where: {
+                [Op.or]: [{ extract_id: extract }]
+            }
+        });
+
+        return getExtract;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.ExtractPaymentId = async (payment_id) => {
+    try {
+        const getExtract = await modelCaller.findAll({
+            where: {
+                [Op.or]: [{ payment_id: payment_id }]
+            }
+        });
+
+        return getExtract;
+    } catch (error) {
+        console.log(error);
     }
 }
 

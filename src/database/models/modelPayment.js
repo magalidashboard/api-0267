@@ -32,6 +32,22 @@ const Payment = sequelize.define('Payment', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    type_payment: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    expires_date: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     professional_email: {
         type: DataTypes.STRING,
         allowNull: false
