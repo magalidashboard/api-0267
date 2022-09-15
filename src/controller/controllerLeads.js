@@ -153,6 +153,8 @@ exports.Updates = async (req, res, next) => {
         galery_store
     } = req.body;
 
+    let { id } = req.params;
+
     if (
         name != undefined ||
         rg != undefined ||
@@ -169,6 +171,7 @@ exports.Updates = async (req, res, next) => {
     ) {
 
         await serviceContent.Updates(
+            id,
             name,
             rg,
             cep,

@@ -1,8 +1,11 @@
 const database = require('../config/database');
 const modelCaller = require('../database/models/modelProfessional');
+const modelUser = require('../database/models/modelUser');
 const fs = require('fs');
 const global = require('../main');
 const { Op } = require('sequelize');
+const bcrypt = require('bcryptjs');
+const { create } = require('domain');
 
 
 exports.Create = async (
@@ -28,7 +31,18 @@ exports.Create = async (
             documents
         });
 
+        let hashpass = bcrypt.hashSync(cpf);
+
+        const createUser = await modelUser.create({
+            email,
+            nickname: email,
+            password: hashpass,
+            role: '2234'
+        })
+
         this.GetFile();
+
+        return { created, createUser };
 
     } catch (error) {
         console.log(error);
@@ -39,16 +53,25 @@ exports.Gets = async () => {
     try {
 
         const gets = await modelCaller.findAll();
+        const users = await modelUser.findAll({
+            where: {
+                role:{
+                    [Op.eq]: '2234'
+                }
+            }
+        });
 
-        this.GetFile();
-
-        return gets.sort((a, b) => {
+        let professionals = [gets, users].sort((a, b) => {
             if (a.id < b.id)
                 return -1;
             if (a.id > b.id)
                 return 1;
             return 0;
         });
+
+        this.GetFile();
+
+        return professionals;
 
     } catch (error) {
         console.log(error);
@@ -110,8 +133,8 @@ exports.GetThis = async (id) => {
                     return 'Not found';
                 }
 
-                return _this;
-            });
+            return _this;
+        });
 
         return gethis;
 
@@ -126,7 +149,6 @@ exports.Updates = async (
     id,
     name = undefined,
     rg = undefined,
-    cep = undefined,
     cpf = undefined,
     cnpj = undefined,
     cellphone = undefined,
@@ -145,7 +167,6 @@ exports.Updates = async (
 
                 name != undefined ? _find.update({ name: name }) : null;
                 rg != undefined ? _find.update({ rg: rg }) : null;
-                cep != undefined ? _find.update({ cep: cep }) : null;
                 cpf != undefined ? _find.update({ cpf: cpf }) : null;
                 cnpj != undefined ? _find.update({ cnpj: cnpj }) : null;
                 address != undefined ? _find.update({ address: address }) : null;
@@ -171,19 +192,38 @@ exports.Updates = async (
 exports.Destroys = async (id) => {
     try {
         const find = await modelCaller.findByPk(id)
-            .then(_find => {
-                if (!_find) {
-                    return 'nothing found';
-                }
+            .then(async _find => {
+
+                if (!_find) return 'nothing found';
 
                 _find.destroy();
-                return `${_find} deleted`;
+                return `deleted`;
             });
 
         this.GetFile();
 
         return find;
 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.DestroyUser = async (id) => {
+    try {
+
+        const find = await modelUser.findByPk(id)
+        .then(async _find => {
+
+            if (!_find) return 'nothing found';
+
+            _find.destroy();
+            return `deleted`;
+        });
+
+        this.GetFile();
+
+        return find;
     } catch (error) {
         console.log(error);
     }

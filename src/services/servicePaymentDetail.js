@@ -7,24 +7,22 @@ const modelLead = require('../database/models/modelLead');
 const fs = require('fs');
 const global = require('../main');
 const serviceMP = require('../services/serviceMercadoPago');
+const CryptoJS  = require('crypto-js');
 
 exports.Create = async (
     payment_id,
-    extract_id,
     payment_detail,
     price,
     cpf,
     name,
-    type_payment,
-    expires_date,
     professionalEmail
     ) => {
     try {
 
         const getTax = await modelSettings.findAll();
-        const getUser = await modelLead.findAll({
+        const getUser = await modelLead.findOne({
             where: {
-                [Op.or]: [{ cpf: cpf }, {cnpj: cpf}]
+                [Op.or]: [{ cpf: cpf }, {cnpj: cpf}, { name: name }]
             }
         });
 
@@ -33,9 +31,13 @@ exports.Create = async (
         let price_by_tax = Number(tax_by_percentage) * Number(price);
         price = Number(price) + Number(price_by_tax);
 
-        const mpresponse = await serviceMP.createPaymentPreference(`#${payment_id}: ${payment_detail}`, price);
+        //const mpresponse = await serviceMP.createPaymentPreference(`#${payment_id}: ${payment_detail}`, price);
+        let cript = encodeURIComponent(CryptoJS.DES.encrypt(getUser.dataValues.email, 'payment'));
+        //let payment_cript = encodeURIComponent(CryptoJS.DES.encrypt(price, 'payment'));
+        //let replace = cript.replaceAll('/', '_');
 
-        let prefix =  `extract_${extract_id}`;
+        let prefix =  `extract_${payment_id}`;
+        let payment_url = `payment/${getUser.dataValues.id}/${payment_id}/${price}/${cript}`;
 
         const createTitle = await modelCaller.create({
             payment_id,
@@ -43,23 +45,25 @@ exports.Create = async (
             payment_detail,
             tax: tax_by_percentage,
             price,
-            cpf,
+            client_id: getUser.dataValues.id,
+            cpf: getUser.dataValues.cpf != '' ? getUser.dataValues.cpf : getUser.dataValues.cnpj,
             name,
-            type_payment,
-            expires_date,
-            email: getUser[0].dataValues.email,
+            type_payment: null,
+            expires_date: getTax[0].dataValues.expire_day,
+            email: getUser.dataValues.email,
             professional_email: professionalEmail,
-            link_payment: mpresponse.init_point,
-            payment_id: mpresponse.id_point,
-            status: 'PENDENTE'
+            link_payment: payment_url,
+            status: 'PENDENTE',
+            whatsapp_status: 'PENDENTE'
         });
 
         const createExtract = await modelExtract.create({
             extract_id: prefix,
-            email: getUser[0].dataValues.email,
+            client_id: getUser.dataValues.id,
+            email: getUser.dataValues.email,
             name,
-            payment_link: mpresponse.init_point,
-            payment_id: mpresponse.id_point,
+            payment_link: payment_url,
+            payment_id,
             status: 'PENDENTE'
         })
 
@@ -76,6 +80,7 @@ exports.updatethis = async (
     paymentid,
     status = undefined, 
     type_payment = undefined, 
+    whatsapp_status = undefined
 ) => {
     try{
         const updatethis = await modelCaller.findOne({
@@ -89,6 +94,7 @@ exports.updatethis = async (
             }
 
             status != undefined ? _this.update({ status: status }) : '';
+            whatsapp_status != undefined ? _this.update({ whatsapp_status: whatsapp_status }) : '';
             type_payment != undefined ? _this.update({ type_payment: type_payment }) : '';
 
             const _save = await _this.save();
@@ -244,3 +250,23 @@ exports.Destroys = async (_payment) => {
     }
 }
 
+exports.destroyPayments = async (id) => {
+    try {
+
+        const findPay = await modelCaller.findByPk(id)
+            .then(destroyThisPay => {
+                if(!destroyThisPay){
+                    return 'nothing found';
+                }
+
+                destroyThisPay.destroy();
+                return `Payment deleted`;
+            });
+
+        return findPay;
+
+    } catch (error) {
+        console.log(error);
+    }
+    
+}

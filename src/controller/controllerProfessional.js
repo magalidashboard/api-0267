@@ -4,7 +4,7 @@ exports.Gets = async (req, res, next) => {
 
     const gets = await serviceContent.Gets();
 
-    if (gets.length > 0) {
+    if (gets.length > 0 && gets != undefined) {
         res.status(200).json({
             gets
         })
@@ -37,7 +37,6 @@ exports.Create = async (req, res, next) => {
     let {
         name,
         rg,
-        cep,
         cpf,
         cnpj,
         cellphone,
@@ -49,7 +48,6 @@ exports.Create = async (req, res, next) => {
     if (![
         name,
         rg,
-        cep,
         cpf,
         cnpj,
         cellphone,
@@ -61,7 +59,6 @@ exports.Create = async (req, res, next) => {
         await serviceContent.Create(
             name,
             rg,
-            cep,
             cpf,
             cnpj,
             cellphone,
@@ -73,7 +70,6 @@ exports.Create = async (req, res, next) => {
         res.status(200).json({
             name,
             rg,
-            cep,
             cpf,
             cnpj,
             cellphone,
@@ -88,7 +84,6 @@ exports.Create = async (req, res, next) => {
     if ([
         name,
         rg,
-        cep,
         cpf,
         cnpj,
         cellphone,
@@ -111,7 +106,6 @@ exports.Create = async (req, res, next) => {
     res.status(200).json({
         name,
         rg,
-        cep,
         cpf,
         cnpj,
         cellphone,
@@ -127,7 +121,6 @@ exports.Updates = async (req, res, next) => {
     let {
         name,
         rg,
-        cep,
         cpf,
         cnpj,
         cellphone,
@@ -139,7 +132,6 @@ exports.Updates = async (req, res, next) => {
     if (
         name != undefined ||
         rg != undefined ||
-        cep != undefined ||
         cpf != undefined ||
         cnpj != undefined ||
         cellphone != undefined ||
@@ -148,10 +140,9 @@ exports.Updates = async (req, res, next) => {
         documents != undefined 
     ) {
 
-        await serviceContent.Updates(
+        let professional = await serviceContent.Updates(
             name,
             rg,
-            cep,
             cpf,
             cnpj,
             cellphone,
@@ -161,15 +152,7 @@ exports.Updates = async (req, res, next) => {
         )
 
         res.status(200).json({
-            name,
-            rg,
-            cep,
-            cpf,
-            cnpj,
-            cellphone,
-            email,
-            address,
-            documents
+            professional
         })
 
         return;
@@ -205,6 +188,26 @@ exports.Destroys = async (req, res, next) => {
     if (req.params.id) {
 
         const _destroy = await serviceContent.Destroys(
+            req.params.id,
+        )
+
+        res.status(200).json({
+            _destroy
+        })
+
+        return;
+    }
+
+    res.status(400).json({
+        error: `wrong item id or doens't exists`
+    })
+}
+
+exports.DestroyUser = async (req, res, next) => {
+
+    if (req.params.id) {
+
+        const _destroy = await serviceContent.DestroyUser(
             req.params.id,
         )
 

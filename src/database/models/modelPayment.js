@@ -24,6 +24,10 @@ const Payment = sequelize.define('Payment', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    client_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     cpf: {
         type: DataTypes.STRING,
         allowNull: false
@@ -57,6 +61,10 @@ const Payment = sequelize.define('Payment', {
         allowNull: false
     },
     status: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    whatsapp_status: {
         type: DataTypes.STRING,
         allowNull: false
     }

@@ -15,5 +15,6 @@ router.get(`/${pathRoute}/:id`, controlContent.GetThis);
 // router.get(`/${pathRoute}/user/:username`, controlContent.GetThisByPassUser);
 router.put(`/${pathRoute}/update/:id`, controlContent.Updates);
 router.delete(`/${pathRoute}/delete/:id`, controlContent.Destroys);
+router.delete(`/${pathRoute}/account/:id`, controlContent.DestroyUser);
 
 module.exports = router;

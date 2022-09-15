@@ -12,6 +12,10 @@ const Extract = sequelize.define('Extract', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    client_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false

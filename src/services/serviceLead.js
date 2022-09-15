@@ -1,9 +1,11 @@
 const database = require('../config/database');
 const modelCaller = require('../database/models/modelLead');
+const modelSettings = require('../database/models/modelSettings');
 const fs = require('fs');
 const global = require('../main');
+require('dotenv').config();
 const { Op } = require('sequelize');
-
+const axios = require('axios').default;
 
 exports.Create = async (
     name,
@@ -17,9 +19,33 @@ exports.Create = async (
     cep_store,
     store_address,
     documents,
-    galery_store
+    galery_store,
+    customer_id
 ) => {
     try {
+
+        const _settings = await modelSettings.findAll();
+
+        let json = {
+            name,
+            cpfCnpj: cpf != '' ? cpf : cnpj,
+        }
+
+        let header = {
+            'content-type': 'application/json',
+            'access_token': _settings[0].dataValues.asaas_api
+        }
+
+
+
+        let asaas_id = await axios.post(`${process.env._ASAAS_URL}/customers`, json, {headers: header})
+        .then(_response => {
+            return _response.data.id;
+        }).catch(_error => {
+            console.log(_error)
+        })
+
+ 
 
         const created = await modelCaller.create({
             name,
@@ -33,7 +59,8 @@ exports.Create = async (
             cep_store,
             store_address,
             documents,
-            galery_store
+            galery_store,
+            customer_id: asaas_id
         });
 
         this.GetFile();

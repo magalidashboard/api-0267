@@ -17,15 +17,17 @@ const Lead = sequelize.define('Lead', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    cep: {
+        type: DataTypes.STRING(10000),
+        allowNull: false,
+    },
     cnpj: {
         type: DataTypes.STRING,
-        allowNull: true,
-        unique: true
+        allowNull: true
     },
     cpf: {
         type: DataTypes.STRING,
-        allowNull: true,
-        unique: true
+        allowNull: true
     },
     cellphone: {
         type: DataTypes.STRING,
@@ -33,8 +35,7 @@ const Lead = sequelize.define('Lead', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
     },
     address: {
         type: DataTypes.STRING(10000),
@@ -65,6 +66,10 @@ const Lead = sequelize.define('Lead', {
         allowNull: true
     },
     whatsapp_status: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    customer_id:{
         type: DataTypes.STRING,
         allowNull: true
     }

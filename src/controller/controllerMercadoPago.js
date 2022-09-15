@@ -2,11 +2,11 @@ const serviceMP = require('../services/serviceMercadoPago');
 const serviceContent = require('../services/servicePaymentDetail');
 
 exports.Create = async (req, res, next) => {
-    let { payment_id, extract_id, payment_detail, price, cpf, name, type_payment, expires_date, professionalEmail } = req.body;
+    let { payment_id, payment_detail, price, cpf, name, professionalEmail } = req.body;
 
-    if(![payment_id, extract_id, payment_detail, price, cpf, name, type_payment, expires_date, professionalEmail].includes(undefined)){
+    if(![payment_id, payment_detail, price, cpf, name, professionalEmail].includes(undefined)){
         let Payment = await serviceContent.Create(
-            payment_id, extract_id, payment_detail, price, cpf, name, type_payment, expires_date, professionalEmail
+            payment_id, payment_detail, price, cpf, name, professionalEmail
         )
     
         res.status(200).json({
@@ -16,7 +16,7 @@ exports.Create = async (req, res, next) => {
         return;
     }
 
-    if([payment_id, extract_id, payment_detail, price, cpf, name, type_payment, expires_date, professionalEmail].includes('')){
+    if([payment_id, payment_detail, price, cpf, name, professionalEmail].includes('')){
         if(Object.keys(req.body).length == 0){
             res.status(400).json({
                 error: 'empty data'
@@ -32,23 +32,26 @@ exports.Create = async (req, res, next) => {
 
 exports.updatethis = async ( req, res, next ) => {
 
-    let { status, type_payment } = req.body;
+    let { status, type_payment, whatsapp_status } = req.body;
     let { paymentid } = req.params;
 
     if(
         status != undefined ||
-        type_payment != undefined 
+        type_payment != undefined ||
+        whatsapp_status != undefined 
         ) {
 
             await serviceContent.updatethis(
                 paymentid,
                 status, 
-                type_payment
+                type_payment,
+                whatsapp_status
             );
         
             res.status(200).json({
                 status, 
-                type_payment
+                type_payment,
+                whatsapp_status
             });
 
         return;
@@ -155,11 +158,10 @@ exports.GetThis = async (req, res, next) => {
             req.params.id,
         )
 
-        const init_point = await serviceMP.createPaymentPreference(gets[0].dataValues.project, gets[0].dataValues.price);
+        //const init_point = await serviceMP.createPaymentPreference(gets[0].dataValues.project, gets[0].dataValues.price);
 
         res.status(200).json({
-            gets,
-            link:init_point
+            gets
         })
 
         return;
@@ -190,7 +192,7 @@ exports.Destroys = async (req, res, next) => {
 
     if(req.params.id){
 
-        const _destroy = await serviceContent.Destroys(
+        const _destroy = await serviceContent.destroyPayments(
             req.params.id,
         )
 
@@ -340,7 +342,7 @@ exports.destroyPayments = async (req, res, next) => {
 
     if(req.params.id){
 
-        const thisPayment = await mercadopagoService.destroyPayments(
+        const thisPayment = await serviceContent.destroyPayments(
             req.params.id,
         )
 

@@ -1,32 +1,48 @@
 LEAD
 {
-    name: '',
-    rg: '',
-    cpf: '',
-    cnpf: '',
-    cellphone: '',
-    email: UNIQUE,
-    address: {
-        cep: '',
-        rua: '',
-        logradouro: '',
-        numero: '',
-        estado: '',
-        pais: ''
-    },
-    store_address: {
-        cep: '',
-        rua: '',
-        logradouro: '',
-        numero: '',
-        estado: '',
-        pais: ''
-    },
-    documents: { attachment: 'img1.jpg, img2.jpg' },
-    gallery_store: { attachment: 'loja1.jpg, loja2.jpg' },
-    payments_id: { 1, 2, 3, 4 },
-    current_payment: 5,
-    whatsapp_status: ''
+  "name": "Lucas Hiago",
+  "rg": "1717170",
+  "cpf": "12345678910",
+  "cnpj": "00.000.000/0001-00",
+  "cellphone": "55 31 9 8888-8888",
+  "email": "UNIQUE",
+  "address": [
+    {
+      "cep": "30512-580",
+      "rua": "JOSE DE PAULA",
+      "logradouro": "CASA",
+      "numero": "120",
+      "estado": "Minas Gerais",
+      "pais": "Brazil"
+    }
+  ],
+  "store_address": [
+    {
+      "cep": "36402-144",
+      "rua": "JOSE DE PAULA",
+      "logradouro": "CASA",
+      "numero": "120",
+      "estado": "Minas Gerais",
+      "pais": "Brazil"
+    }
+  ],
+  "documents": [
+    {
+      "attachment": "img1.jpg, img2.jpg"
+    }
+  ],
+  "gallery_store": [
+    {
+      "attachment": "loja1.jpg, loja2.jpg"
+    }
+  ],
+  "payments_id": [
+    {
+      "Payments": "1, 2, 3, 4"
+    }
+  ],
+  "current_payment": "5",
+  "whatsapp_status": "PENDENTE"
 }
 
 PROFESSIONAL

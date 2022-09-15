@@ -18,11 +18,11 @@ const Profession = sequelize.define('Profession', {
     },
     cpf: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     cnpj: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     cellphone: {
         type: DataTypes.STRING,
@@ -30,8 +30,7 @@ const Profession = sequelize.define('Profession', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
     },
     address:{
         type: DataTypes.STRING,

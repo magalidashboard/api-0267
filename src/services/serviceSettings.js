@@ -2,30 +2,14 @@ const database = require('../config/database');
 const modelCaller = require('../database/models/modelSettings');
 
 exports.create = async (            
-    mercado_pago_store, 
-    mercado_pago_key, 
-    mercado_pago_token, 
-    mercado_pago_url_success,
-    mercado_pago_url_pending,
-    mercado_pago_url_failure,
-    mercado_pago_notification_url,
-    pagseguro_id, 
-    pagseguro_key, 
-    pagseguro_public_key,  
+    asaas_api, 
+    expire_day,
     tax, 
     whatsapp_message) => {
     try {
         const create = await modelCaller.create({
-            mercado_pago_store, 
-            mercado_pago_key, 
-            mercado_pago_token, 
-            mercado_pago_url_success,
-            mercado_pago_url_pending,
-            mercado_pago_url_failure,
-            mercado_pago_notification_url,
-            pagseguro_id, 
-            pagseguro_key, 
-            pagseguro_public_key, 
+            asaas_api, 
+            expire_day,
             tax, 
             whatsapp_message
         });
@@ -73,16 +57,8 @@ exports.gethis = async (id) => {
 
 exports.updatethis = async (
     id, 
-    mercado_pago_store = undefined, 
-    mercado_pago_key = undefined, 
-    mercado_pago_token = undefined, 
-    mercado_pago_url_success = undefined, 
-    mercado_pago_url_pending = undefined, 
-    mercado_pago_url_failure = undefined, 
-    mercado_pago_notification_url = undefined,
-    pagseguro_id  = undefined, 
-    pagseguro_key  = undefined, 
-    pagseguro_public_key  = undefined, 
+    asaas_api = undefined, 
+    expire_day = undefined, 
     tax  = undefined,
     whatsapp_message = undefined) => {
     try{
@@ -92,16 +68,8 @@ exports.updatethis = async (
                 return 'Not found';
             }
 
-            mercado_pago_store != undefined ? _this.update({ mercado_pago_store: mercado_pago_store }) : '';
-            mercado_pago_key != undefined ? _this.update({ mercado_pago_key: mercado_pago_key }) : '';
-            mercado_pago_token != undefined ? _this.update({ mercado_pago_token: mercado_pago_token }) : '';
-            mercado_pago_url_success != undefined ? _this.update({ mercado_pago_url_success: mercado_pago_url_success }) : '';
-            mercado_pago_url_pending != undefined ? _this.update({ mercado_pago_url_pending: mercado_pago_url_pending }) : '';
-            mercado_pago_url_failure != undefined ? _this.update({ mercado_pago_url_failure: mercado_pago_url_failure }) : '';
-            mercado_pago_notification_url != undefined ? _this.update({ mercado_pago_notification_url: mercado_pago_notification_url }) : '';
-            pagseguro_id != undefined ? _this.update({ pagseguro_id: pagseguro_id }) : '';
-            pagseguro_key != undefined ? _this.update({ pagseguro_key: pagseguro_key }) : '';
-            pagseguro_public_key != undefined ? _this.update({ pagseguro_public_key: pagseguro_public_key }) : '';
+            asaas_api != undefined ? _this.update({ asaas_api: asaas_api }) : '';
+            expire_day != undefined ? _this.update({ expire_day: expire_day }) : '';
             tax != undefined ? _this.update({ tax: tax }) : '';
             whatsapp_message != undefined ? _this.update({ whatsapp_message: whatsapp_message }) : '';
 
