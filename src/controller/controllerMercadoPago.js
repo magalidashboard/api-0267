@@ -357,3 +357,53 @@ exports.destroyPayments = async (req, res, next) => {
         error: `wrong payment id or doens't exists`
     })
 }
+
+exports.createPaymentAsaas = async (req, res, next) => {
+    const {
+        id,
+        customer, 
+        billingType, 
+        value, 
+        dueDate, 
+        creditCardHolderInfo, 
+        description,
+        name,
+        email,
+        cpfCnpj,
+        postalCode,
+        addressNumber,
+        phone,
+        creditCard,
+        holderName,
+        number,
+        expiryMonth,
+        expiryYear,
+        ccv
+    } = req.body;
+
+    const paymentAsaas = await serviceContent.createPaymentAsaas(
+        id,
+        customer, 
+        billingType, 
+        value, 
+        dueDate, 
+        creditCardHolderInfo, 
+        description, 
+        name, 
+        email, 
+        cpfCnpj, 
+        postalCode, 
+        addressNumber, 
+        phone, 
+        creditCard, 
+        holderName, 
+        number, 
+        expiryMonth, 
+        expiryYear, 
+        ccv
+    )
+
+    res.status(200).json({
+        paymentAsaas
+    });
+}

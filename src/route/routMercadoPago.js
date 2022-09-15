@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const controlContent = require('../controller/controllerMercadoPago');
 const passport    = require('passport');
-
 let pathRoute = 'mercadopago';
 
 router.get('/publicmp', controlContent.getPublicKey);
@@ -29,5 +28,8 @@ router.post('/update/pix/status', controlContent.checkPixPayments);
 router.get('/history/payments', controlContent.getPayments);
 router.delete('/payment/pix/delete/:id', controlContent.destroyPixPayments);
 router.delete('/payment/delete/:id', controlContent.destroyPayments);
+
+//PAYMENT ASAAS
+router.post('/asaas/payment', controlContent.createPaymentAsaas);
 
 module.exports = router;

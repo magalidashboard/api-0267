@@ -54,7 +54,7 @@ const Lead = sequelize.define('Lead', {
         allowNull: false,
     },
     galery_store: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(10000),
         allowNull: false,
     },
     payments_id: {

@@ -36,16 +36,12 @@ exports.Create = async (
             'access_token': _settings[0].dataValues.asaas_api
         }
 
-
-
         let asaas_id = await axios.post(`${process.env._ASAAS_URL}/customers`, json, {headers: header})
         .then(_response => {
             return _response.data.id;
         }).catch(_error => {
             console.log(_error)
         })
-
- 
 
         const created = await modelCaller.create({
             name,

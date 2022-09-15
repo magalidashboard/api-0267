@@ -8,6 +8,7 @@ const fs = require('fs');
 const global = require('../main');
 const serviceMP = require('../services/serviceMercadoPago');
 const CryptoJS  = require('crypto-js');
+const axios = require('axios').default;
 
 exports.Create = async (
     payment_id,
@@ -109,7 +110,6 @@ exports.updatethis = async (
     }
 
 }
-
 
 exports.PreferenceSearch = async (id) => {
     try {
@@ -269,4 +269,92 @@ exports.destroyPayments = async (id) => {
         console.log(error);
     }
     
+}
+
+exports.createPaymentAsaas = async (
+        id,
+        customer, 
+        billingType, 
+        value, 
+        dueDate, 
+        creditCardHolderInfo = undefined, 
+        description = undefined, 
+        name = undefined, 
+        email = undefined, 
+        cpfCnpj = undefined, 
+        postalCode = undefined, 
+        addressNumber = undefined, 
+        phone = undefined, 
+        creditCard = undefined, 
+        holderName = undefined, 
+        number = undefined, 
+        expiryMonth = undefined, 
+        expiryYear = undefined, 
+        ccv = undefined
+    ) => {
+    try {
+        
+        const _settings = await modelSettings.findAll();
+        await modelCaller.findByPk(id).then(async _this => {
+            if(!_this){
+                return 'Not found';
+            }
+
+            _this.update({ status: 'EM ANÁLISE' });
+            _this.update({ type_payment: billingType });
+
+            await _this.save();
+
+        });
+
+        if(creditCardHolderInfo != undefined && creditCard != undefined){
+            json = {
+                customer,
+                billingType,
+                value,
+                dueDate,
+                creditCardHolderInfo: {
+                  description,
+                  name,
+                  email,
+                  cpfCnpj,
+                  postalCode,
+                  addressNumber,
+                  phone
+                },
+                creditCard:{
+                  holderName,
+                  number,
+                  expiryMonth,
+                  expiryYear,
+                  ccv
+                },
+            }
+
+        } else {
+            json = {
+                customer,
+                billingType,
+                value,
+                dueDate
+            }
+        }
+
+        let header = {
+            'content-type': 'application/json',
+            'access_token': _settings[0].dataValues.asaas_api
+        }
+
+        const asaas_id = await axios.post(`${process.env._ASAAS_URL}/payments`, json, {headers: header})
+        .then(_response => {
+            return _response;
+        }).catch(_error => {
+            console.log(_error)
+        })
+
+        return asaas_id.data;
+
+    } catch (error) {
+        console.log(error);
+    }
 }
