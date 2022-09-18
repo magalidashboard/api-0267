@@ -1,4 +1,4 @@
-const serviceContent = require('../services/serviceProfessional');
+const serviceContent = require('../services/serviceNotification');
 
 exports.Gets = async (req, res, next) => {
 
@@ -35,7 +35,9 @@ exports.GetFile = async (req, res, next) => {
 
 exports.Create = async (req, res, next) => {
 
-    console.log('webhook occurs', req.body)
+    console.log('webhook occurs', req.body);
+
+    await serviceContent.Create(JSON.stringify(req.body));
 
     if (![
         req.body
