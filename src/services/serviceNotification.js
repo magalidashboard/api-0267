@@ -11,9 +11,9 @@ exports.Create = async (
 ) => {
     try {
 
-        const created = await modelCaller.create(
+        const created = await modelCaller.create({
             notification
-        )
+        })
 
         return created;
 

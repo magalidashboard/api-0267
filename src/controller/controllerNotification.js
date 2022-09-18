@@ -35,9 +35,9 @@ exports.GetFile = async (req, res, next) => {
 
 exports.Create = async (req, res, next) => {
 
-    console.log('webhook occurs', req.body);
+    let data = JSON.stringify(req.body)
 
-    await serviceContent.Create(JSON.stringify(req.body));
+    await serviceContent.Create(data);
 
     if (![
         req.body
