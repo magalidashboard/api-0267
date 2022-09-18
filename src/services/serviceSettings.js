@@ -5,13 +5,17 @@ exports.create = async (
     asaas_api, 
     expire_day,
     tax, 
-    whatsapp_message) => {
+    whatsapp_message,
+    notification,
+    notification_email) => {
     try {
         const create = await modelCaller.create({
             asaas_api, 
             expire_day,
             tax, 
-            whatsapp_message
+            whatsapp_message,
+            notification,
+            notification_email
         });
     }
     catch (err) {
@@ -60,7 +64,9 @@ exports.updatethis = async (
     asaas_api = undefined, 
     expire_day = undefined, 
     tax  = undefined,
-    whatsapp_message = undefined) => {
+    whatsapp_message = undefined,
+    notification = undefined,
+    notification_email = undefined) => {
     try{
         const updatethis = await modelCaller.findByPk(id)
         .then(async _this => {
@@ -72,6 +78,8 @@ exports.updatethis = async (
             expire_day != undefined ? _this.update({ expire_day: expire_day }) : '';
             tax != undefined ? _this.update({ tax: tax }) : '';
             whatsapp_message != undefined ? _this.update({ whatsapp_message: whatsapp_message }) : '';
+            notification != undefined ? _this.update({ notification: notification }) : '';
+            notification_email != undefined ? _this.update({ notification_email: notification_email }) : '';
 
             const _save = await _this.save();
             return _save;

@@ -32,4 +32,7 @@ router.delete('/payment/delete/:id', controlContent.destroyPayments);
 //PAYMENT ASAAS
 router.post('/asaas/payment', controlContent.createPaymentAsaas);
 
+//WEBHOOK ASAAS
+router.post('/asaas/webhook/active', controlContent.activateAsaasWebhook);
+
 module.exports = router;

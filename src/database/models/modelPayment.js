@@ -67,7 +67,15 @@ const Payment = sequelize.define('Payment', {
     whatsapp_status: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    asaas_payment_id: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    asaas_customer_id: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
 });
 
 const init = (async () => {

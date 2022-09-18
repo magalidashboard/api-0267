@@ -8,7 +8,7 @@ const controlContent = require('../controller/controllerNotification');
 
 let pathRoute = 'status';
 
-router.post(`/${pathRoute}/notification`, controlContent.Create);
+router.post(`/${pathRoute}/notification/asaas/webhook`, controlContent.Create);
 router.get(`/${pathRoute}`, /*passport.authenticate('jwt', {session: false}),*/ controlContent.Gets);
 router.get(`/${pathRoute}/file`, controlContent.GetFile);
 router.get(`/${pathRoute}/:id`, controlContent.GetThis);

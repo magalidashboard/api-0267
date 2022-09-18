@@ -6,27 +6,34 @@ exports.create = async ( req, res, next ) => {
         asaas_api, 
         expire_day,
         tax, 
-        whatsapp_message
+        whatsapp_message,
+        notification,
+        notification_email
     } = req.body;
 
     if(![
         asaas_api, 
         expire_day,
         tax, 
-        whatsapp_message
+        whatsapp_message,
+        notification
     ].includes(undefined)){
         await serviceContent.create(
             asaas_api, 
             expire_day,
             tax, 
-            whatsapp_message
+            whatsapp_message,
+            notification,
+            notification_email
         );
 
         res.status(200).json({
             asaas_api, 
             expire_day,
             tax, 
-            whatsapp_message
+            whatsapp_message,
+            notification,
+            notification_email
         });
 
     }
@@ -77,14 +84,18 @@ exports.updatethis = async ( req, res, next ) => {
         asaas_api, 
         expire_day,
         tax, 
-        whatsapp_message } = req.body;
+        whatsapp_message,
+        notification,
+        notification_email } = req.body;
     let { id } = req.params;
 
     if(
         asaas_api != undefined || 
         expire_day != undefined ||
         tax != undefined || 
-        whatsapp_message != undefined
+        whatsapp_message != undefined ||
+        notification != undefined ||
+        notification_email != undefined
         ) {
 
             await serviceContent.updatethis(
@@ -92,14 +103,18 @@ exports.updatethis = async ( req, res, next ) => {
                 asaas_api, 
                 expire_day,
                 tax, 
-                whatsapp_message
+                whatsapp_message,
+                notification,
+                notification_email
             );
         
             res.status(200).json({
                 asaas_api, 
                 expire_day,
                 tax, 
-                whatsapp_message
+                whatsapp_message,
+                notification,
+                notification_email
             });
 
         return;

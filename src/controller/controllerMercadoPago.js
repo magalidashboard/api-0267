@@ -407,3 +407,11 @@ exports.createPaymentAsaas = async (req, res, next) => {
         paymentAsaas
     });
 }
+
+exports.activateAsaasWebhook = async (req, res, next) => {
+    const webhook = await serviceContent.createWebhookAsaas();
+
+    res.status(200).json({
+        webhook
+    });
+}

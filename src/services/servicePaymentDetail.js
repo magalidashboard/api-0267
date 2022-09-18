@@ -55,7 +55,9 @@ exports.Create = async (
             professional_email: professionalEmail,
             link_payment: payment_url,
             status: 'PENDENTE',
-            whatsapp_status: 'PENDENTE'
+            whatsapp_status: 'PENDENTE',
+            asaas_payment_id: null,
+            asaas_customer_id: null
         });
 
         const createExtract = await modelExtract.create({
@@ -311,8 +313,8 @@ exports.createPaymentAsaas = async (
             json = {
                 customer,
                 billingType,
-                value,
                 dueDate,
+                value,
                 creditCardHolderInfo: {
                   description,
                   name,
@@ -335,8 +337,8 @@ exports.createPaymentAsaas = async (
             json = {
                 customer,
                 billingType,
-                value,
-                dueDate
+                dueDate,
+                value
             }
         }
 
@@ -346,15 +348,58 @@ exports.createPaymentAsaas = async (
         }
 
         const asaas_id = await axios.post(`${process.env._ASAAS_URL}/payments`, json, {headers: header})
-        .then(_response => {
+        .then(async _response => {
             return _response;
         }).catch(_error => {
             console.log(_error)
         })
+        
+        await modelCaller.findByPk(id).then(async _this => {
+            if(!_this){
+                return 'Not found';
+            }
 
-        return asaas_id.data;
+            _this.update({ asaas_customer_id: asaas_id?.data.customer });
+
+            await _this.save();
+
+        });
+
+        return asaas_id?.data;
 
     } catch (error) {
         console.log(error);
     }
+}
+
+exports.createWebhookAsaas = async () => {
+
+    try {
+
+        const _settings = await modelSettings.findAll();
+
+        let header = {
+            'content-type': 'application/json',
+            'access_token': _settings[0].dataValues.asaas_api
+        }
+
+        let json = {
+            url: _settings[0].dataValues.notification,
+            email: _settings[0].dataValues.notification_email,
+            interrupted: false,
+            enabled: true,
+            apiVersion: 3
+        }
+
+        const payment_status = axios.post(`${process.env._ASAAS_URL}/webhook`, json, {headers: header})
+        .then(async _result => {
+            return _result;
+        }).catch(_error => console.log(_error));
+
+        return payment_status?.data;
+
+    } catch (error) {
+        console.log(error)
+    }
+
 }

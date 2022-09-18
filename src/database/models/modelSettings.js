@@ -27,6 +27,16 @@ const Settings = sequelize.define('Settings', {
         type: DataTypes.STRING, 
         allowNull: false,
         unique: true
+    },
+    notification:{
+        type: DataTypes.STRING, 
+        allowNull: false,
+        unique: true
+    },
+    notification_email:{
+        type: DataTypes.STRING, 
+        allowNull: false,
+        unique: true
     }
 });
 
