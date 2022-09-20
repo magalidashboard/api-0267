@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
 const multerS3 = require('multer-s3');
+const CryptoJS = require('crypto-js');
 const aws = require('../utils/s3connection');
 
 const FILE_SIZE = 2 * 1024 * 1024 * 2048;
@@ -17,7 +18,7 @@ const storageTypes = {
             crypto.randomBytes(NUMBER_OF_BYTES, (err, hash) => {
                 if(err) cb(err);
 
-                const fileName = `${file.originalname}`;
+                const fileName = CryptoJS.MD5(file.originalname) + '_' + file.originalname;
 
                 cb(null, fileName);
             });

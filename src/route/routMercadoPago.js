@@ -7,6 +7,7 @@ let pathRoute = 'mercadopago';
 router.get('/publicmp', controlContent.getPublicKey);
 router.post(`/${pathRoute}/create`, /* passport.authenticate('jwt', {session: false}), */ controlContent.Create);
 router.get(`/payments`, controlContent.Gets);
+router.get(`/payments/all`, controlContent.GetAll);
 router.get(`/${pathRoute}/file`, controlContent.GetFile);
 router.get(`/payment/mercadopago/:id`, controlContent.GetThis);
 router.delete(`/${pathRoute}/delete/:id`, controlContent.Destroys);
@@ -31,6 +32,12 @@ router.delete('/payment/delete/:id', controlContent.destroyPayments);
 
 //PAYMENT ASAAS
 router.post('/asaas/payment', controlContent.createPaymentAsaas);
+//QRCODE
+router.post('/asaas/qrcode', controlContent.createQrCode);
+
+//PIX STATUS
+router.get('/asaas/pix/:id', controlContent.checkPix);
+router.get('/asaas/filter', controlContent.filterDate);
 
 //WEBHOOK ASAAS
 router.post('/asaas/webhook/active', controlContent.activateAsaasWebhook);

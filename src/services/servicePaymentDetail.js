@@ -10,6 +10,24 @@ const serviceMP = require('../services/serviceMercadoPago');
 const CryptoJS  = require('crypto-js');
 const axios = require('axios').default;
 
+const getPagination = (page, size) => {
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+  
+    return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: payments } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+  
+    return { totalItems, payments, totalPages, currentPage };
+};
+
+
+var param_id;
+
 exports.Create = async (
     payment_id,
     payment_detail,
@@ -57,7 +75,9 @@ exports.Create = async (
             status: 'PENDENTE',
             whatsapp_status: 'PENDENTE',
             asaas_payment_id: null,
-            asaas_customer_id: null
+            asaas_customer_id: null,
+            asaas_transaction_url: null,
+            asaas_invoice_number: null
         });
 
         const createExtract = await modelExtract.create({
@@ -159,20 +179,43 @@ exports.ExtractPaymentId = async (payment_id) => {
     }
 }
 
-exports.Gets = async () => {
+exports.Gets = async (page, size) => {
+    try {
+ 
+        const { limit, offset } = getPagination(page, size);
+
+        const gets = await modelCaller.findAndCountAll({ where: { payment_id: { [Op.ne]: null } }, limit, offset })
+            .then(_pagination => {
+                const response = getPagingData(_pagination, page, limit);
+                return response;
+            })
+            .catch(_err => {
+                return _err;
+            })
+
+        return gets;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetAll = async () => {
     try {
 
         const gets = await modelCaller.findAll();
 
-        this.GetFile();
-
-        return gets.sort((a, b) => {
+        let payments = gets.sort((a, b) => {
             if (a.id < b.id)
-              return -1;
+                return -1;
             if (a.id > b.id)
-              return 1;
+                return 1;
             return 0;
         });
+
+        this.GetFile();
+
+        return payments;
 
     } catch (error) {
         console.log(error);
@@ -302,9 +345,11 @@ exports.createPaymentAsaas = async (
                 return 'Not found';
             }
 
-            _this.update({ status: 'EM ANÁLISE' });
-            _this.update({ type_payment: billingType });
-
+            if(_this.dataValues.status != 'RECEIVED' || _this.dataValues.status != 'CONFIRMED'){
+                _this.update({ status: 'EM ANÁLISE' });
+                _this.update({ type_payment: billingType });
+            }
+            
             await _this.save();
 
         });
@@ -360,6 +405,15 @@ exports.createPaymentAsaas = async (
             }
 
             _this.update({ asaas_customer_id: asaas_id?.data.customer });
+            _this.update({ asaas_payment_id: asaas_id?.data.id });
+
+            console.log(_this.dataValues)
+            
+            if(_this.dataValues.status != 'RECEIVED' && _this.dataValues.status != 'CONFIRMED'){
+                _this.update({ status: asaas_id?.data.status });
+                _this.update({ type_payment: asaas_id?.data.billingType });
+            }
+
 
             await _this.save();
 
@@ -373,7 +427,6 @@ exports.createPaymentAsaas = async (
 }
 
 exports.createWebhookAsaas = async () => {
-
     try {
 
         const _settings = await modelSettings.findAll();
@@ -402,4 +455,105 @@ exports.createWebhookAsaas = async () => {
         console.log(error)
     }
 
+}
+
+
+exports.makePixAsaasPayment = async (        
+    customer, 
+    billingType, 
+    value, 
+    dueDate
+    ) => {
+    try {
+
+        const _settings = await modelSettings.findAll();
+
+        let header = {
+            'content-type': 'application/json',
+            'access_token': _settings[0].dataValues.asaas_api
+        }
+
+        let json = {
+            customer, 
+            billingType, 
+            value, 
+            dueDate
+        }
+
+        const payment_status = await axios.post(`${process.env._ASAAS_URL}/payments`, json, {headers: header})
+        .then(async _result => {
+            return _result;
+        }).catch(_error => console.log(_error));
+
+        param_id = payment_status?.data.id;
+
+        const pix_qrcode = await axios.get(`${process.env._ASAAS_URL}/payments/${payment_status?.data.id}/pixQrCode`, {headers: header})
+        .then(async _result => {
+            return _result;
+        }).catch(_error => console.log(_error));
+
+        return pix_qrcode?.data;
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+exports.checkPixPaymentAsaas = async (id) => {
+    try {
+
+        const _settings = await modelSettings.findAll();
+
+        let header = {
+            'content-type': 'application/json',
+            'access_token': _settings[0].dataValues.asaas_api
+        }
+
+        const _pix_status = await axios.get(`${process.env._ASAAS_URL}/payments/${param_id}`, {headers: header})
+        .then(async _result => {
+            return _result;
+        }).catch(_error => console.log(_error));
+
+        const _update = await modelCaller.findByPk(id)
+            .then(async _find => {
+                if (!_find) {
+                    return 'nothing found';
+                }
+
+                if(_find.dataValues.status != 'RECEIVED' || _find.dataValues.status != 'CONFIRMED'){
+                    _find.update({ status: _pix_status?.data?.status });
+                    _find.update({ type_payment: _pix_status?.data?.billingType });
+                }
+    
+                await _find.save();
+            })
+
+        return _pix_status?.data;
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.filterBydate = async (initialDate, finalDate) => {
+    try {
+        
+        const _settings = await modelSettings.findAll();
+
+        let header = {
+            'content-type': 'application/json',
+            'access_token': _settings[0].dataValues.asaas_api
+        }
+
+        const _filtered = await axios.get(`${process.env._ASAAS_URL}/payments?dueDate%5Bge%5D=${initialDate}&dueDate%5Ble%5D=${finalDate}`, {headers: header})
+        .then(async _result => {
+            return _result;
+        }).catch(_error => console.log(_error));
+
+        return _filtered?.data;
+
+    } catch (error) {
+        
+    }
 }

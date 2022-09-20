@@ -75,7 +75,18 @@ exports.getPublicKey = async (req, res, next) => {
 }
 
 exports.Gets = async (req, res, next) => {
-    const gets = await serviceContent.Gets();
+
+    const { page, size } = req.query;
+
+    const gets = await serviceContent.Gets(page, size);
+
+    res.status(200).json({
+        gets
+    })
+}
+
+exports.GetAll = async (req, res, next) => {
+    const gets = await serviceContent.GetAll();
 
     res.status(200).json({
         gets
@@ -408,10 +419,48 @@ exports.createPaymentAsaas = async (req, res, next) => {
     });
 }
 
+exports.createQrCode = async (req, res, next) => {
+    const {
+        customer, 
+        billingType, 
+        value, 
+        dueDate
+    } = req.body;
+
+    const qrCode = await serviceContent.makePixAsaasPayment(
+        customer, 
+        billingType, 
+        value, 
+        dueDate
+    )
+
+    res.status(200).json({
+        qrCode
+    });
+}
+
 exports.activateAsaasWebhook = async (req, res, next) => {
     const webhook = await serviceContent.createWebhookAsaas();
 
     res.status(200).json({
         webhook
+    });
+}
+
+exports.checkPix = async (req, res, next) => {
+    const _pix_status = await serviceContent.checkPixPaymentAsaas(req.params.id);
+
+    res.status(200).json({
+        _pix_status
+    })
+}
+
+exports.filterDate = async (req, res, next) => {
+    const { initialData, finalData } = req.query;
+
+    const _filtered = await serviceContent.filterBydate(initialData, finalData);
+
+    res.status(200).json({
+        _filtered
     });
 }

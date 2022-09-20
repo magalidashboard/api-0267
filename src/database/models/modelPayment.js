@@ -76,6 +76,14 @@ const Payment = sequelize.define('Payment', {
         type: DataTypes.STRING,
         allowNull: true
     },
+    asaas_transaction_url: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    asaas_invoice_number: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
 });
 
 const init = (async () => {

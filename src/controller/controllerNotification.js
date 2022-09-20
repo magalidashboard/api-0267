@@ -1,4 +1,7 @@
 const serviceContent = require('../services/serviceNotification');
+const EventEmmiter = require('events');
+const Stream = new EventEmmiter();
+
 
 exports.Gets = async (req, res, next) => {
 
@@ -64,11 +67,21 @@ exports.Create = async (req, res, next) => {
         }
     }
 
-
     res.status(200).json({
         response: req.body
     })
 
+    // res.writeHead(200, {
+    //     'Content-Type': 'text/event-stream',
+    //     'Cache-Control': 'no-cache',
+    //     Connection: 'keep-alive'
+    // });
+
+    // Stream.on('push', (event, data) => {
+    //     res.write('event: ' + String(event) + '\n' + 'data: ' + data + '\n\n');
+    // });
+
+    // Stream.emit('hook', 'message', { msg: data });
 
 }
 

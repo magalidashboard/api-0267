@@ -212,10 +212,24 @@ exports.Updates = async (
 exports.Destroys = async (id) => {
     try {
         const find = await modelCaller.findByPk(id)
-            .then(_find => {
+            .then(async _find => {
                 if (!_find) {
                     return 'nothing found';
                 }
+                
+                const _settings = await modelSettings.findAll();
+        
+                let header = {
+                    'content-type': 'application/json',
+                    'access_token': _settings[0].dataValues.asaas_api
+                }
+        
+                await axios.delete(`${process.env._ASAAS_URL}/customers/${_find.dataValues.customer_id}`, {headers: header})
+                .then(_response => {
+                    return _response.data.id;
+                }).catch(_error => {
+                    console.log(_error)
+                })
 
                 _find.destroy();
                 return `${_find} deleted`;
